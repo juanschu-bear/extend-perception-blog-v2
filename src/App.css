@@ -8,6 +8,16 @@
   overflow: hidden;
 }
 
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  z-index: 100;
+  background: linear-gradient(90deg, #8feeff, #26c8ff, #8feeff);
+  box-shadow: 0 0 22px rgba(114, 228, 255, 0.8);
+}
+
 .bg-mesh {
   position: fixed;
   inset: 0;
@@ -261,6 +271,186 @@ h1 span:last-child {
   font-weight: 700;
 }
 
+.lab-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1.5fr 1fr;
+}
+
+.lab-canvas-wrap {
+  border: 1px solid rgba(145, 229, 255, 0.22);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(11, 25, 38, 0.86), rgba(8, 15, 22, 0.9));
+  padding: 0.7rem;
+}
+
+.lab-canvas {
+  position: relative;
+  min-height: 340px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: radial-gradient(circle at 22% 24%, rgba(122, 230, 255, 0.2), transparent 42%), #07121c;
+}
+
+.noise-cloud span {
+  position: absolute;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(188, 233, 248, 0.45);
+}
+
+.signal-node {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid rgba(142, 236, 255, 0.5);
+  background: rgba(20, 72, 91, 0.8);
+  color: #dcfaff;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 15px rgba(120, 228, 255, 0.45);
+}
+
+.signal-node.found {
+  background: rgba(18, 170, 109, 0.9);
+  border-color: rgba(147, 255, 216, 0.9);
+}
+
+.lab-controls {
+  border: 1px solid rgba(145, 229, 255, 0.22);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(11, 25, 38, 0.86), rgba(8, 15, 22, 0.9));
+  padding: 1rem;
+}
+
+.lab-controls h3 {
+  margin: 0.5rem 0;
+}
+
+.lab-copy {
+  color: #b8dce8;
+}
+
+.score-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0.8rem 0;
+  padding: 0.75rem;
+  border-radius: 10px;
+  background: rgba(10, 43, 60, 0.55);
+  border: 1px solid rgba(145, 229, 255, 0.23);
+}
+
+.score-box span {
+  font-size: 0.86rem;
+  color: #96cbda;
+}
+
+.lab-controls label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.lab-controls input[type='range'] {
+  width: 100%;
+  accent-color: #8ceaff;
+}
+
+.reveal {
+  margin-top: 0.8rem;
+  padding: 0.7rem;
+  border-radius: 10px;
+  background: rgba(12, 34, 47, 0.6);
+  border: 1px solid rgba(145, 229, 255, 0.21);
+  color: #d6f6ff;
+}
+
+.visual-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.visual-card {
+  position: relative;
+  min-height: 320px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(146, 228, 255, 0.24);
+  opacity: 0;
+  transform: translateY(12px);
+  animation: fadeLift 700ms ease forwards;
+}
+
+.visual-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.visual-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 35%, rgba(2, 9, 15, 0.9) 100%);
+}
+
+.visual-copy {
+  position: absolute;
+  left: 0.9rem;
+  right: 0.9rem;
+  bottom: 0.8rem;
+}
+
+.visual-copy h3 {
+  margin: 0.25rem 0;
+}
+
+.visual-copy p {
+  margin: 0;
+}
+
+.quiz-panel {
+  text-align: left;
+}
+
+.quiz-question {
+  margin-top: 0;
+  font-size: 1.08rem;
+}
+
+.quiz-options {
+  display: grid;
+  gap: 0.7rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.quiz-options button {
+  border: 1px solid rgba(145, 229, 255, 0.32);
+  border-radius: 12px;
+  background: rgba(9, 33, 47, 0.55);
+  color: #ddf8ff;
+  padding: 0.9rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.quiz-options button.active {
+  border-color: rgba(145, 255, 202, 0.8);
+  box-shadow: 0 0 0 1px rgba(145, 255, 202, 0.25);
+}
+
+.quiz-feedback {
+  margin-top: 0.8rem;
+  padding: 0.8rem;
+  border-radius: 10px;
+  background: rgba(10, 43, 60, 0.55);
+  border: 1px solid rgba(145, 229, 255, 0.24);
+}
+
 .system-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -316,6 +506,12 @@ h1 span:last-child {
 
 @keyframes revealCard {
   to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 980px) {
+  .lab-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 860px) {
