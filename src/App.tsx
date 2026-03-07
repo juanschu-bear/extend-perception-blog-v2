@@ -3,54 +3,72 @@ import './App.css'
 const posts = [
   {
     id: '001',
-    title: 'The Decision Was Made Before You Entered the Room',
-    hook: 'High-stakes decisions are often pre-shaped before discussion starts.',
-    category: 'Power & Systems',
-    minutes: '12 min',
+    title: 'You want to talk about AI consciousness? Fine, define yours first!',
+    category: 'Consciousness',
+    minutes: '11 min',
   },
   {
     id: '002',
-    title: 'Why You Cannot See What You Cannot See',
-    hook: 'Blind spots are not missing facts. They are structural filters.',
+    title: 'You were already a data machine long before the internet existed.',
+    category: 'Cognition Systems',
+    minutes: '10 min',
+  },
+  {
+    id: '003',
+    title: 'The more you learn, the less you see. Why? Experience makes us smarter but less free.',
     category: 'Blind Spots',
     minutes: '14 min',
   },
   {
-    id: '007',
-    title: 'System First Publishing',
-    hook: 'One core article, multiple channel outputs without manual repetition.',
-    category: 'AI as Perception Layer',
+    id: '004',
+    title: 'The cage you build from proof. Why science should be a starting line, not a finish line.',
+    category: 'Epistemology',
+    minutes: '13 min',
+  },
+  {
+    id: '005',
+    title: 'The language trap: You only think as far as your words allow.',
+    category: 'Language',
     minutes: '9 min',
+  },
+  {
+    id: '006',
+    title: 'Your emotions are not yours. They were installed.',
+    category: 'Behavior Architecture',
+    minutes: '12 min',
   },
 ]
 
 function App() {
   return (
     <div className="app">
+      <div className="ambient ambient-a" aria-hidden="true" />
+      <div className="ambient ambient-b" aria-hidden="true" />
+
       <header className="hero">
-        <p className="eyebrow">Extend Perception</p>
-        <h1>Editorial Engine Preview</h1>
+        <p className="eyebrow">Extend Perception Essays</p>
+        <h1>Thinking Out Loud</h1>
         <p className="hero-copy">
-          Separate v2 concept: built for premium long-form and automatic cross-channel publishing.
+          Essays on the boundaries of human cognition, the nature of consciousness, and the
+          systems we build to extend what we are.
         </p>
         <div className="hero-actions">
-          <a href="#posts" className="btn btn-primary">Read Concepts</a>
-          <a href="#system" className="btn btn-ghost">Publishing System</a>
+          <a href="#posts" className="btn btn-primary">Enter Library</a>
+          <a href="#system" className="btn btn-ghost">See Publishing System</a>
         </div>
       </header>
 
       <section id="posts" className="panel">
         <div className="panel-head">
-          <h2>Featured Articles</h2>
-          <span>System-ready format</span>
+          <h2>Current Titles</h2>
+          <span>6 essays</span>
         </div>
         <div className="cards">
           {posts.map((post) => (
             <article key={post.id} className="card">
               <p className="meta">{post.id} · {post.category}</p>
               <h3>{post.title}</h3>
-              <p>{post.hook}</p>
-              <a href="#" className="card-link">Open draft ({post.minutes})</a>
+              <a href="#" className="card-link">Read essay ({post.minutes})</a>
             </article>
           ))}
         </div>
@@ -58,30 +76,30 @@ function App() {
 
       <section id="system" className="panel system">
         <div className="panel-head">
-          <h2>Multi-Channel Publishing</h2>
-          <span>One input, many outputs</span>
+          <h2>Publishing System (Visible)</h2>
+          <span>from one source file</span>
         </div>
         <div className="system-grid">
           <div>
-            <p className="step">1. Canonical</p>
-            <h3>Markdown as source</h3>
-            <p>Each article starts as one file with metadata and long-form content.</p>
+            <p className="step">1. Write Once</p>
+            <h3>Canonical essay</h3>
+            <p>Each article starts in one markdown file with title, metadata, and long-form text.</p>
           </div>
           <div>
             <p className="step">2. Transform</p>
-            <h3>Channel variants</h3>
-            <p>Auto-generate X post, X thread, newsletter intro, and Medium-ready text.</p>
+            <h3>Channel outputs</h3>
+            <p>Automatically generate X post, X thread, newsletter copy, and Medium-ready variant.</p>
           </div>
           <div>
-            <p className="step">3. Publish</p>
-            <h3>Automation workflow</h3>
-            <p>n8n pushes to website + X + newsletter, with Medium as draft/assisted step.</p>
+            <p className="step">3. Distribute</p>
+            <h3>Workflow push</h3>
+            <p>n8n publishes to site + X + newsletter. Medium gets draft/manual assist if needed.</p>
           </div>
         </div>
       </section>
 
       <footer className="footer">
-        <p>V2 Preview Repo • Separate from your current production repo</p>
+        <p>Separate v2 repository • built to evolve into full editorial engine</p>
       </footer>
     </div>
   )

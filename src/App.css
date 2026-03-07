@@ -1,65 +1,93 @@
 .app {
+  position: relative;
   min-height: 100vh;
-  color: #f2f5f7;
+  color: #edf7ff;
   padding: 3rem 1.25rem 4rem;
-  max-width: 1100px;
+  max-width: 1150px;
   margin: 0 auto;
+  overflow: hidden;
+}
+
+.ambient {
+  position: fixed;
+  border-radius: 999px;
+  filter: blur(70px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.ambient-a {
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(circle, rgba(51, 205, 255, 0.42), transparent 65%);
+  top: -120px;
+  left: -120px;
+}
+
+.ambient-b {
+  width: 620px;
+  height: 620px;
+  background: radial-gradient(circle, rgba(0, 158, 240, 0.28), transparent 70%);
+  bottom: -220px;
+  right: -180px;
 }
 
 .hero {
-  background: linear-gradient(145deg, rgba(10, 60, 74, 0.9), rgba(16, 20, 25, 0.95));
-  border: 1px solid rgba(131, 232, 255, 0.25);
-  border-radius: 28px;
-  padding: 3rem;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  background: linear-gradient(140deg, rgba(15, 85, 112, 0.62), rgba(9, 23, 37, 0.74), rgba(8, 13, 18, 0.75));
+  border: 1px solid rgba(137, 225, 255, 0.35);
+  border-radius: 30px;
+  padding: 3.2rem;
+  box-shadow: 0 28px 75px rgba(0, 0, 0, 0.44);
+  backdrop-filter: blur(4px);
 }
 
 .eyebrow {
   text-transform: uppercase;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.22em;
   font-size: 0.78rem;
-  color: #8ceaff;
+  color: #96ecff;
 }
 
 h1 {
-  font-size: clamp(2rem, 5vw, 4rem);
-  line-height: 1.05;
-  margin: 0.5rem 0 1rem;
+  font-size: clamp(2.3rem, 5.3vw, 4.6rem);
+  line-height: 1.03;
+  margin: 0.4rem 0 1rem;
 }
 
 .hero-copy {
-  max-width: 60ch;
-  color: #d0dde1;
+  max-width: 68ch;
+  color: #c8e2ed;
+  font-size: 1.05rem;
 }
 
 .hero-actions {
   display: flex;
   gap: 0.9rem;
-  margin-top: 1.5rem;
+  margin-top: 1.6rem;
   flex-wrap: wrap;
 }
 
 .btn {
   border-radius: 999px;
-  padding: 0.7rem 1.2rem;
+  padding: 0.72rem 1.25rem;
   font-weight: 700;
   text-decoration: none;
 }
 
 .btn-primary {
-  background: #86ecff;
-  color: #00222e;
+  background: #89edff;
+  color: #042634;
 }
 
 .btn-ghost {
-  border: 1px solid rgba(134, 236, 255, 0.5);
-  color: #d6f8ff;
+  border: 1px solid rgba(137, 237, 255, 0.58);
+  color: #dbf8ff;
 }
 
 .panel {
   margin-top: 1.8rem;
-  background: rgba(9, 12, 16, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(180deg, rgba(8, 19, 27, 0.86), rgba(8, 11, 17, 0.86));
+  border: 1px solid rgba(160, 231, 255, 0.17);
   border-radius: 22px;
   padding: 1.4rem;
 }
@@ -74,48 +102,46 @@ h1 {
 
 .panel-head h2 {
   margin: 0;
-  font-size: clamp(1.3rem, 2.5vw, 2rem);
+  font-size: clamp(1.35rem, 2.4vw, 2.1rem);
 }
 
 .panel-head span {
-  color: #93a8b0;
+  color: #9fbec8;
   font-size: 0.9rem;
 }
 
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
   gap: 1rem;
 }
 
 .card {
-  background: linear-gradient(180deg, rgba(20, 24, 30, 0.95), rgba(10, 13, 18, 0.95));
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, rgba(26, 37, 48, 0.82), rgba(12, 18, 26, 0.85));
+  border: 1px solid rgba(154, 227, 255, 0.16);
   border-radius: 16px;
   padding: 1rem;
+  min-height: 180px;
 }
 
 .card h3 {
-  margin: 0.35rem 0 0.65rem;
-  font-size: 1.1rem;
-}
-
-.card p {
-  color: #bccbd0;
-  margin: 0;
+  margin: 0.35rem 0 0.75rem;
+  font-size: 1.02rem;
+  line-height: 1.35;
 }
 
 .meta {
-  color: #88e9ff !important;
-  font-size: 0.8rem;
-  letter-spacing: 0.05em;
+  color: #8de8ff;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
+  margin: 0;
 }
 
 .card-link {
   display: inline-block;
-  margin-top: 1rem;
-  color: #88e9ff;
+  margin-top: 0.35rem;
+  color: #97ecff;
   text-decoration: none;
   font-weight: 700;
 }
@@ -127,10 +153,10 @@ h1 {
 }
 
 .system-grid > div {
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(146, 228, 255, 0.17);
   border-radius: 16px;
   padding: 1rem;
-  background: rgba(9, 13, 17, 0.8);
+  background: rgba(12, 21, 29, 0.8);
 }
 
 .step {
@@ -138,12 +164,12 @@ h1 {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: #8ceaff;
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.55rem;
 }
 
 .footer {
-  margin-top: 1.5rem;
+  margin-top: 1.6rem;
   text-align: center;
-  color: #8ea0a7;
+  color: #93aebb;
   font-size: 0.9rem;
 }
