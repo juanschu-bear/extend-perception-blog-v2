@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import './App.css'
 
 type Post = {
@@ -6,6 +6,12 @@ type Post = {
   title: string
   category: string
   minutes: string
+}
+
+type TrailPoint = {
+  id: number
+  x: number
+  y: number
 }
 
 const posts: Post[] = [
@@ -79,18 +85,79 @@ const noiseTerms = [
   'signal', 'noise', 'intent', 'position', 'meaning', 'language', 'prediction', 'emotion',
 ]
 
+const chapters = [
+  {
+    id: 'chapter-1',
+    label: 'Chapter 01',
+    title: 'Perception Is Not Neutral',
+    body: 'The world you experience is a rendered model, not raw reality.',
+    image: 'https://cdn.marblism.com/KOWuYLfc7dh.webp',
+  },
+  {
+    id: 'chapter-2',
+    label: 'Chapter 02',
+    title: 'Language Builds Invisible Walls',
+    body: 'Your vocabulary defines the boundaries of your available thoughts.',
+    image: 'https://cdn.marblism.com/JYv-IGlvyyt.webp',
+  },
+  {
+    id: 'chapter-3',
+    label: 'Chapter 03',
+    title: 'Systems Install Emotions',
+    body: 'Many emotional states are responses to architecture, not identity.',
+    image: 'https://cdn.marblism.com/uxgaBEC1eqy.webp',
+  },
+] as const
+
+const chapterThemes = [
+  { base: '#07141f', accent: '#7fe8ff' },
+  { base: '#120c1f', accent: '#7b95ff' },
+  { base: '#121b10', accent: '#7dffa9' },
+]
+
 function App() {
   const [mouse, setMouse] = useState({ x: 50, y: 20 })
   const [scrollProgress, setScrollProgress] = useState(0)
   const [clarity, setClarity] = useState(35)
   const [foundSignals, setFoundSignals] = useState<string[]>([])
   const [quizChoice, setQuizChoice] = useState<string | null>(null)
+  const [corridorProgress, setCorridorProgress] = useState(0)
+  const [activeChapter, setActiveChapter] = useState(0)
+  const [trailPoints, setTrailPoints] = useState<TrailPoint[]>([])
+
+  const corridorRef = useRef<HTMLElement | null>(null)
+  const chapterRefs = useRef<(HTMLElement | null)[]>([])
+  const magneticRef = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
+    let pointId = 0
+
     const handleMove = (event: MouseEvent) => {
-      const x = (event.clientX / window.innerWidth) * 100
-      const y = (event.clientY / window.innerHeight) * 100
-      setMouse({ x, y })
+      const x = event.clientX
+      const y = event.clientY
+
+      setMouse({
+        x: (x / window.innerWidth) * 100,
+        y: (y / window.innerHeight) * 100,
+      })
+
+      setTrailPoints(prev => [{ id: pointId++, x, y }, ...prev].slice(0, 18))
+
+      const target = (event.target as HTMLElement | null)?.closest('[data-magnetic]') as HTMLElement | null
+
+      if (magneticRef.current && magneticRef.current !== target) {
+        magneticRef.current.style.transform = ''
+      }
+
+      if (target) {
+        magneticRef.current = target
+        const rect = target.getBoundingClientRect()
+        const offsetX = (x - (rect.left + rect.width / 2)) * 0.18
+        const offsetY = (y - (rect.top + rect.height / 2)) * 0.18
+        target.style.transform = `translate(${offsetX}px, ${offsetY}px)`
+      } else {
+        magneticRef.current = null
+      }
     }
 
     const handleScroll = () => {
@@ -98,15 +165,47 @@ function App() {
       const current = window.scrollY
       const progress = total <= 0 ? 0 : Math.min(100, Math.max(0, (current / total) * 100))
       setScrollProgress(progress)
+
+      if (corridorRef.current) {
+        const rect = corridorRef.current.getBoundingClientRect()
+        const raw = (window.innerHeight - rect.top) / (rect.height + window.innerHeight)
+        setCorridorProgress(Math.min(1, Math.max(0, raw)))
+      }
+
+      const centerY = window.innerHeight * 0.5
+      let closestIndex = 0
+      let closestDistance = Number.POSITIVE_INFINITY
+
+      chapterRefs.current.forEach((node, index) => {
+        if (!node) return
+        const rect = node.getBoundingClientRect()
+        const nodeCenter = rect.top + rect.height / 2
+        const distance = Math.abs(centerY - nodeCenter)
+        if (distance < closestDistance) {
+          closestDistance = distance
+          closestIndex = index
+        }
+      })
+
+      setActiveChapter(closestIndex)
+    }
+
+    const handleLeave = () => {
+      if (magneticRef.current) {
+        magneticRef.current.style.transform = ''
+        magneticRef.current = null
+      }
     }
 
     window.addEventListener('mousemove', handleMove, { passive: true })
     window.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('mouseleave', handleLeave)
     handleScroll()
 
     return () => {
       window.removeEventListener('mousemove', handleMove)
       window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('mouseleave', handleLeave)
     }
   }, [])
 
@@ -126,15 +225,38 @@ function App() {
     return 'Useful, but still downstream. The hidden frame usually decides first.'
   }, [quizChoice])
 
+  const adventureScore = useMemo(() => {
+    const quizPoints = quizChoice === 'A' ? 35 : quizChoice ? 20 : 0
+    return Math.min(100, signalScore * 20 + quizPoints + Math.round(clarity * 0.25))
+  }, [clarity, signalScore, quizChoice])
+
   const onSignalClick = (id: string) => {
     setFoundSignals(prev => (prev.includes(id) ? prev : [...prev, id]))
   }
 
+  const theme = chapterThemes[activeChapter] ?? chapterThemes[0]
+
   return (
-    <div className="app">
+    <div className="app" style={{ '--chapter-base': theme.base, '--chapter-accent': theme.accent } as CSSProperties}>
       <div className="progress" style={{ width: `${scrollProgress}%` }} />
       <div className="bg-mesh" aria-hidden="true" />
       <div className="bg-radial" style={{ left: `${mouse.x}%`, top: `${mouse.y}%` }} aria-hidden="true" />
+
+      <div className="cursor-layer" aria-hidden="true">
+        <div className="cursor-core" style={{ left: `${mouse.x}%`, top: `${mouse.y}%` }} />
+        {trailPoints.map((point, index) => (
+          <span
+            key={point.id}
+            className="trail-dot"
+            style={{
+              left: point.x,
+              top: point.y,
+              opacity: Math.max(0, 0.8 - index * 0.05),
+              transform: `translate(-50%, -50%) scale(${Math.max(0.25, 1 - index * 0.05)})`,
+            }}
+          />
+        ))}
+      </div>
 
       <header className="hero">
         <p className="eyebrow">Extend Perception Essays</p>
@@ -148,8 +270,8 @@ function App() {
         </p>
 
         <div className="hero-actions">
-          <a href="#posts" className="btn btn-primary">Enter Library</a>
-          <a href="#lab" className="btn btn-ghost">Perception Lab</a>
+          <a href="#corridor" className="btn btn-primary" data-magnetic>Enter 3D Corridor</a>
+          <a href="#lab" className="btn btn-ghost" data-magnetic>Perception Lab</a>
         </div>
 
         <div className="manifesto-grid">
@@ -176,18 +298,68 @@ function App() {
         </div>
       </section>
 
-      <section id="posts" className="panel">
-        <div className="panel-head">
-          <h2>Current Titles</h2>
-          <span>6 essays</span>
+      <section id="corridor" className="panel corridor-panel" ref={corridorRef}>
+        <div className="panel-head corridor-head">
+          <h2>3D Essay Corridor</h2>
+          <span>scroll to travel through the archive</span>
         </div>
-        <div className="cards">
-          {posts.map((post, index) => (
-            <article key={post.id} className="card" style={{ animationDelay: `${index * 90}ms` }}>
-              <div className="card-glow" aria-hidden="true" />
-              <p className="meta">{post.id} · {post.category}</p>
-              <h3>{post.title}</h3>
-              <a href="#" className="card-link">Read essay ({post.minutes})</a>
+
+        <div className="corridor-sticky">
+          <div className="corridor-stage">
+            {posts.map((post, index) => {
+              const total = posts.length - 1 || 1
+              const normalized = index / total
+              const delta = (normalized - corridorProgress) * posts.length
+              const z = 560 - Math.abs(delta) * 760
+              const x = delta * 180
+              const y = Math.abs(delta) * 24
+              const rotateY = delta * -16
+              const opacity = Math.max(0.2, 1 - Math.abs(delta) * 0.36)
+              const active = Math.abs(delta) < 0.5
+
+              return (
+                <article
+                  key={post.id}
+                  className={`corridor-card${active ? ' active' : ''}`}
+                  style={{
+                    opacity,
+                    transform: `translate3d(${x}px, ${y}px, ${z}px) rotateY(${rotateY}deg)`,
+                  }}
+                  data-magnetic
+                >
+                  <p className="meta">{post.id} · {post.category}</p>
+                  <h3>{post.title}</h3>
+                  <p className="corridor-min">Read essay ({post.minutes})</p>
+                </article>
+              )
+            })}
+          </div>
+          <p className="corridor-hint">Keep scrolling to move deeper into the essay vault.</p>
+        </div>
+      </section>
+
+      <section className="panel chapter-panel">
+        <div className="panel-head">
+          <h2>Chapter Transitions</h2>
+          <span>environment shifts by narrative layer</span>
+        </div>
+        <div className="chapters">
+          {chapters.map((chapter, index) => (
+            <article
+              id={chapter.id}
+              key={chapter.id}
+              className={`chapter${activeChapter === index ? ' active' : ''}`}
+              ref={el => {
+                chapterRefs.current[index] = el
+              }}
+            >
+              <img src={chapter.image} alt={chapter.title} />
+              <div className="chapter-overlay" />
+              <div className="chapter-copy">
+                <p className="step">{chapter.label}</p>
+                <h3>{chapter.title}</h3>
+                <p>{chapter.body}</p>
+              </div>
             </article>
           ))}
         </div>
@@ -226,6 +398,7 @@ function App() {
                     style={{ left: target.left, top: target.top }}
                     onClick={() => onSignalClick(target.id)}
                     aria-label={target.label}
+                    data-magnetic
                   >
                     <span>{found ? '✓' : '+'}</span>
                   </button>
@@ -268,7 +441,7 @@ function App() {
         </div>
         <div className="visual-grid">
           {visualCards.map((card, index) => (
-            <article key={card.title} className="visual-card" style={{ animationDelay: `${index * 120}ms` }}>
+            <article key={card.title} className="visual-card" style={{ animationDelay: `${index * 120}ms` }} data-magnetic>
               <img src={card.image} alt={card.title} />
               <div className="visual-overlay" />
               <div className="visual-copy">
@@ -289,11 +462,30 @@ function App() {
 
         <p className="quiz-question">What usually decides outcomes first in high-stakes communication?</p>
         <div className="quiz-options">
-          <button onClick={() => setQuizChoice('A')} className={quizChoice === 'A' ? 'active' : ''}>A. Framing and language constraints</button>
-          <button onClick={() => setQuizChoice('B')} className={quizChoice === 'B' ? 'active' : ''}>B. More data and stronger evidence</button>
-          <button onClick={() => setQuizChoice('C')} className={quizChoice === 'C' ? 'active' : ''}>C. Better speaking confidence alone</button>
+          <button onClick={() => setQuizChoice('A')} className={quizChoice === 'A' ? 'active' : ''} data-magnetic>A. Framing and language constraints</button>
+          <button onClick={() => setQuizChoice('B')} className={quizChoice === 'B' ? 'active' : ''} data-magnetic>B. More data and stronger evidence</button>
+          <button onClick={() => setQuizChoice('C')} className={quizChoice === 'C' ? 'active' : ''} data-magnetic>C. Better speaking confidence alone</button>
         </div>
         {quizFeedback && <p className="quiz-feedback">{quizFeedback}</p>}
+      </section>
+
+      <section className="panel adventure-panel">
+        <div className="panel-head">
+          <h2>Adventure Progress</h2>
+          <span>unlock your reader state</span>
+        </div>
+
+        <div className="adventure-track">
+          <div className="adventure-fill" style={{ width: `${adventureScore}%` }} />
+        </div>
+        <p className="adventure-text">Perception XP: {adventureScore}/100</p>
+
+        <div className="adventure-milestones">
+          <div className={adventureScore >= 25 ? 'on' : ''}>25 · Surface Breaker</div>
+          <div className={adventureScore >= 50 ? 'on' : ''}>50 · Pattern Reader</div>
+          <div className={adventureScore >= 75 ? 'on' : ''}>75 · Frame Hacker</div>
+          <div className={adventureScore >= 100 ? 'on' : ''}>100 · Cognitive Cartographer</div>
+        </div>
       </section>
 
       <section id="system" className="panel system">
@@ -321,7 +513,7 @@ function App() {
       </section>
 
       <footer className="footer">
-        <p>Separate v2 repository • cinematic concept pass with interactive layers</p>
+        <p>Separate v2 repository • extended interactive adventure build</p>
       </footer>
     </div>
   )
