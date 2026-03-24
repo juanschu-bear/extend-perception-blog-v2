@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type FormEvent } from 'react'
 import { Routes, Route, Link } from 'react-router-dom'
 import './App.css'
 import ConsciousnessArticle from './articles/ConsciousnessArticle'
@@ -210,6 +210,9 @@ function Landing() {
   const [corridorPrevIndex, setCorridorPrevIndex] = useState<number | null>(null)
   const [clarity, setClarity] = useState(35)
   const [quizChoice, setQuizChoice] = useState<string | null>(null)
+  const [subscriberName, setSubscriberName] = useState('')
+  const [subscriberEmail, setSubscriberEmail] = useState('')
+  const [subscribeStatus, setSubscribeStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
 
   const corridorRef = useRef<HTMLElement | null>(null)
   const worldRefs = useRef<(HTMLElement | null)[]>([])
@@ -279,6 +282,7 @@ function Landing() {
   }, [])
 
   const activeTheme = worlds[activeWorld] ?? worlds[0]
+  const subscribeWebhookUrl = import.meta.env.VITE_SUBSCRIBE_WEBHOOK_URL as string | undefined
 
   const quizFeedback = useMemo(() => {
     if (!quizChoice) return null
@@ -319,6 +323,38 @@ function Landing() {
     setCorridorIndex(prev => {
       return Math.min(posts.length - 1, Math.max(0, prev + direction))
     })
+  }
+
+  const handleSubscribe = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setSubscribeStatus('loading')
+
+    const payload = {
+      name: subscriberName.trim(),
+      email: subscriberEmail.trim().toLowerCase(),
+      source: 'extended-humans-blog',
+    }
+
+    try {
+      if (subscribeWebhookUrl) {
+        const response = await fetch(subscribeWebhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        })
+        if (!response.ok) throw new Error('Subscribe request failed')
+      } else {
+        const subject = encodeURIComponent('New blog subscriber')
+        const body = encodeURIComponent(`Name: ${payload.name}\nEmail: ${payload.email}\nSource: ${payload.source}`)
+        window.location.href = `mailto:hello@extendperception.com?subject=${subject}&body=${body}`
+      }
+
+      setSubscribeStatus('success')
+      setSubscriberName('')
+      setSubscriberEmail('')
+    } catch {
+      setSubscribeStatus('error')
+    }
   }
 
   useEffect(() => {
@@ -384,6 +420,7 @@ function Landing() {
             <div className="hero-actions">
               <a href="#corridor" className="btn btn-primary" data-magnetic>Browse Articles</a>
               <a href="#podcast" className="btn btn-ghost" data-magnetic>Listen to Podcast</a>
+              <a href="#subscribe" className="btn btn-ghost" data-magnetic>Get New Posts</a>
             </div>
 
             <div className="manifesto-grid">
@@ -791,6 +828,40 @@ function Landing() {
             </article>
           ))}
         </div>
+      </section>
+
+      <section id="subscribe" className="panel subscribe-panel" ref={el => { worldRefs.current[7] = el }} data-world-index="7">
+        <div className="panel-head">
+          <h2>Join The Reading List</h2>
+          <span>Get new posts and essay drops first.</span>
+        </div>
+        <form className="subscribe-form" onSubmit={handleSubscribe}>
+          <label>
+            <span>Name</span>
+            <input
+              type="text"
+              value={subscriberName}
+              onChange={event => setSubscriberName(event.target.value)}
+              placeholder="Your name"
+              required
+            />
+          </label>
+          <label>
+            <span>Email</span>
+            <input
+              type="email"
+              value={subscriberEmail}
+              onChange={event => setSubscriberEmail(event.target.value)}
+              placeholder="you@domain.com"
+              required
+            />
+          </label>
+          <button type="submit" className="subscribe-btn" disabled={subscribeStatus === 'loading'}>
+            {subscribeStatus === 'loading' ? 'Submitting...' : 'Subscribe'}
+          </button>
+        </form>
+        {subscribeStatus === 'success' && <p className="subscribe-feedback success">You are in. New posts will hit your inbox.</p>}
+        {subscribeStatus === 'error' && <p className="subscribe-feedback error">Something failed. Please try again in a minute.</p>}
       </section>
 
       <section className="panel sequel-panel" ref={el => { worldRefs.current[7] = el }} data-world-index="7">
