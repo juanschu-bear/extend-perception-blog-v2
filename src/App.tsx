@@ -102,9 +102,9 @@ const worlds: WorldTheme[] = [
 const manifesto = ['Consciousness', 'Perception', 'Language', 'Bias', 'Systems', 'Agency', 'Memory', 'Meaning']
 
 const heroMetrics = [
-  { label: 'New essays', value: 'Weekly', detail: 'Neue Texte docken direkt an die Journey an.' },
+  { label: 'New essays', value: 'Weekly', detail: 'Neue Texte docken direkt an die Bibliothek an.' },
   { label: 'Podcast feed', value: 'Live', detail: 'Spotify-Episodes und Essays sprechen dieselbe Sprache.' },
-  { label: 'Mode', value: 'Immersive', detail: 'Kein Blog-Raster. Eher eine kuratierte Gedankenlandschaft.' },
+  { label: 'Style', value: 'Future Library', detail: 'Ein klarer Leseraum mit Tiefe statt reiner Effektshow.' },
 ]
 
 const chapterCards = [
@@ -369,20 +369,20 @@ function Landing() {
       <header className="hero" ref={el => { worldRefs.current[0] = el }} data-world-index="0">
         <div className="hero-grid">
           <div className="hero-main">
-            <div className="mood-badge">World: {activeTheme.mood}</div>
-            <div className="live-build-banner">World Build 07 is live</div>
-            <p className="eyebrow">Extend Perception Essays</p>
+            <div className="mood-badge">Collection: {activeTheme.mood}</div>
+            <div className="live-build-banner">Extended Humans Blog</div>
+            <p className="eyebrow">Extended Humans Essays</p>
             <h1>
-              <span>Thinking</span>
-              <span>Out Loud</span>
+              <span>Extended</span>
+              <span>Humans Blog</span>
             </h1>
-            <p className="hero-kicker">Essay worlds, real podcast episode, longer binge-reading arc.</p>
+            <p className="hero-kicker">Deep essays, podcast notes, and a clear reading system.</p>
             <p className="hero-copy">
               Essays über Bewusstsein, Wahrnehmung, Emotionen, Sprache und die Systeme, die unser Denken erweitern oder einschränken.
             </p>
 
             <div className="hero-actions">
-              <a href="#corridor" className="btn btn-primary" data-magnetic>Start Journey</a>
+              <a href="#corridor" className="btn btn-primary" data-magnetic>Open Library</a>
               <a href="#podcast" className="btn btn-ghost" data-magnetic>Podcast hören</a>
             </div>
 
@@ -399,10 +399,10 @@ function Landing() {
               <span />
               <span />
             </div>
-            <p className="step">Signal Console</p>
-            <h3>Perception is the interface.</h3>
+            <p className="step">Editorial Console</p>
+            <h3>Ideas with structure.</h3>
             <p className="hero-console-copy">
-              Eine Landingpage, die nicht nur Texte listet, sondern ein Gefühl von Tiefe, Richtung und intellektueller Gravitation erzeugt.
+              Ein Leseraum, der Orientierung gibt: klar, hochwertig und auf langfristiges Lesen ausgelegt.
             </p>
             <div className="hero-metrics">
               {heroMetrics.map(metric => (
@@ -523,7 +523,7 @@ function Landing() {
 
       <section className="panel chapter-panel" ref={el => { worldRefs.current[2] = el }} data-world-index="2">
         <div className="panel-head">
-          <h2>Chapter Worlds</h2>
+          <h2>Essay Chapters</h2>
           <span>jeder Abschnitt mit eigener Stimmung</span>
         </div>
         <div className="chapter-flow">
@@ -538,8 +538,8 @@ function Landing() {
           </article>
           <div className="chapter-rail">
             <div className="chapter-signal-box">
-              <p className="step">World Logic</p>
-              <h3>Chapter Worlds should feel bigger than content cards.</h3>
+              <p className="step">Library Logic</p>
+              <h3>Chapters should feel curated, not like random content cards.</h3>
               <div className="chapter-signals">
                 {chapterSignals.map(signal => (
                   <span key={signal}>{signal}</span>
@@ -800,7 +800,7 @@ function Landing() {
 
       <section className="panel sequel-panel" ref={el => { worldRefs.current[7] = el }} data-world-index="7">
         <div className="panel-head">
-          <h2>World 6 / 7</h2>
+          <h2>Next Volumes</h2>
           <span>more territory after the obvious landing page ending</span>
         </div>
         <div className="sequel-grid">
@@ -837,7 +837,7 @@ function Landing() {
       </section>
 
       <footer className="footer" ref={el => { worldRefs.current[7] = el }} data-world-index="7">
-        <p>Extended interactive journey • world transitions • podcast ready</p>
+        <p>Extended Humans Blog • curated essays • podcast ready</p>
       </footer>
     </div>
   )
