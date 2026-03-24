@@ -20,4 +20,11 @@ export default defineConfig([
       globals: globals.browser,
     },
   },
+  {
+    files: ['src/articles/**/*.{ts,tsx}'],
+    rules: {
+      'react-hooks/static-components': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+    },
+  },
 ])
