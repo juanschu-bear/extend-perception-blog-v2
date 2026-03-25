@@ -163,6 +163,7 @@
 
 .title-line {
   display: block;
+  color: var(--color-text);
 }
 
 .title-line-accent {
@@ -176,6 +177,8 @@
 .glitch-text {
   position: relative;
   display: inline-block;
+  color: var(--color-accent);
+  -webkit-text-fill-color: var(--color-accent);
 }
 
 .glitch-text::before,
