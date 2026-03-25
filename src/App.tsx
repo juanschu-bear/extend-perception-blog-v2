@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type FormEvent } from 'react'
 import { Routes, Route, Link } from 'react-router-dom'
 import './App.css'
+import { NewLanding } from './NewLanding'
 import ConsciousnessArticle from './articles/ConsciousnessArticle'
 import DataMachineArticle from './articles/DataMachineArticle'
 import LearningArticle from './articles/LearningArticle'
@@ -912,7 +913,7 @@ function Landing() {
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Landing />} />
+      <Route path="/" element={<NewLanding />} />
       <Route path="/ai-consciousness" element={<ConsciousnessArticle />} />
       <Route path="/data-machine" element={<DataMachineArticle />} />
       <Route path="/the-more-you-learn" element={<LearningArticle />} />
