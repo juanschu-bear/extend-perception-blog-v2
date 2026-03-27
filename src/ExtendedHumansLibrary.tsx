@@ -304,6 +304,14 @@ export default function ExtendedHumansLibrary(): JSX.Element {
         <div className="podcast-eyebrow" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: 6, textTransform: 'uppercase' as const, color: '#6E6555', marginBottom: 24 }}>
           {tx({ en: 'Podcast \u00b7 In Development', de: 'Podcast \u00b7 In Entwicklung', es: 'Podcast \u00b7 En desarrollo' })}
         </div>
+        <div className="podcast-signal" aria-hidden="true">
+          <span className="podcast-spotify-dot">♫</span>
+          <div className="podcast-wave">
+            {Array.from({ length: 18 }).map((_, i) => (
+              <i key={i} />
+            ))}
+          </div>
+        </div>
         <p className="podcast-line" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(20px,2.5vw,28px)', fontStyle: 'italic', fontWeight: 400, color: 'rgba(245,237,224,0.4)', lineHeight: 1.4 }}>
           {tx({
             en: "Conversations about the things nobody is willing to say out loud. Coming to the library soon.",
