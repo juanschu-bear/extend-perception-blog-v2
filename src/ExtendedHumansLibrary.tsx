@@ -30,6 +30,7 @@ function ArticleRow({ article, lang, index }: { article: typeof articles[0]; lan
 
   return (
     <div
+      className="eh-shell-padding"
       ref={ref}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -232,7 +233,7 @@ export default function ExtendedHumansLibrary(): JSX.Element {
       {/* ═══ THE STACKS ═══ */}
       <section id="stacks" style={{ padding: '100px 0 80px', position: 'relative' as const }}>
         <div style={{ position: 'absolute' as const, top: 0, left: '50%', transform: 'translateX(-50%)', width: 1, height: 80, background: 'linear-gradient(180deg, transparent, rgba(201,169,110,0.15), transparent)' }} />
-        <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 48px', display: 'flex', alignItems: 'center' as const, gap: 20, marginBottom: 72 }}>
+        <div className="eh-shell-padding" style={{ maxWidth: 900, margin: '0 auto', padding: '0 48px', display: 'flex', alignItems: 'center' as const, gap: 20, marginBottom: 72 }}>
           <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 15, fontStyle: 'italic', fontWeight: 400, color: '#6E6555', letterSpacing: 3 }}>
             {tx({ en: 'The Stacks', de: 'Die Sammlung', es: 'La colecci\u00f3n' })}
           </span>
@@ -245,14 +246,14 @@ export default function ExtendedHumansLibrary(): JSX.Element {
       </section>
 
       {/* ═══ DIVIDER ═══ */}
-      <div style={{ maxWidth: 900, margin: '80px auto', padding: '0 48px', display: 'flex', alignItems: 'center' as const, gap: 20 }}>
+      <div className="eh-shell-padding" style={{ maxWidth: 900, margin: '80px auto', padding: '0 48px', display: 'flex', alignItems: 'center' as const, gap: 20 }}>
         <div style={{ flex: 1, height: 1, background: 'rgba(201,169,110,0.06)' }} />
         <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 18, fontStyle: 'italic', color: 'rgba(201,169,110,0.2)' }}>{'\u25C7'}</span>
         <div style={{ flex: 1, height: 1, background: 'rgba(201,169,110,0.06)' }} />
       </div>
 
       {/* ═══ SUBSCRIBE ═══ */}
-      <section id="subscribe" style={{ maxWidth: 900, margin: '0 auto', padding: '0 48px' }}>
+      <section id="subscribe" className="eh-shell-padding" style={{ maxWidth: 900, margin: '0 auto', padding: '0 48px' }}>
         <div className="subscribe-card" style={{ position: 'relative' as const, padding: '64px 48px', border: '1px solid rgba(201,169,110,0.12)', background: 'linear-gradient(135deg, rgba(201,169,110,0.03), rgba(139,77,92,0.02), transparent)', textAlign: 'center' as const }}>
           <div className="subscribe-card-topline" style={{ position: 'absolute' as const, top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, #C9A96E, transparent)', opacity: 0.3 }} />
           <h3 className="subscribe-title" style={{ margin: 0, marginBottom: 10, fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(28px,4vw,40px)', fontStyle: 'italic', fontWeight: 600, color: '#F5EDE0' }}>
@@ -274,7 +275,7 @@ export default function ExtendedHumansLibrary(): JSX.Element {
       </section>
 
       {/* ═══ ESSAY ═══ */}
-      <section style={{ maxWidth: 900, margin: '0 auto', padding: '0 48px' }}>
+      <section className="eh-shell-padding" style={{ maxWidth: 900, margin: '0 auto', padding: '0 48px' }}>
         <div className="essay-event-card" style={{ padding: '72px 56px', position: 'relative' as const, overflow: 'hidden' as const, border: '2px solid rgba(201,169,110,0.25)', background: 'linear-gradient(135deg, rgba(201,169,110,0.06), rgba(139,77,92,0.04), rgba(201,169,110,0.03))' }}>
           <div className="essay-event-topline" style={{ position: 'absolute' as const, top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, transparent, #C9A96E, transparent)', opacity: 0.7 }} />
           <div className="essay-event-label" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: 6, textTransform: 'uppercase' as const, color: '#D4A44E', marginBottom: 24 }}>
@@ -300,14 +301,14 @@ export default function ExtendedHumansLibrary(): JSX.Element {
       </section>
 
       {/* ═══ DIVIDER ═══ */}
-      <div style={{ maxWidth: 900, margin: '80px auto', padding: '0 48px', display: 'flex', alignItems: 'center' as const, gap: 20 }}>
+      <div className="eh-shell-padding" style={{ maxWidth: 900, margin: '80px auto', padding: '0 48px', display: 'flex', alignItems: 'center' as const, gap: 20 }}>
         <div style={{ flex: 1, height: 1, background: 'rgba(201,169,110,0.06)' }} />
         <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 18, fontStyle: 'italic', color: 'rgba(201,169,110,0.2)' }}>{'\u25C7'}</span>
         <div style={{ flex: 1, height: 1, background: 'rgba(201,169,110,0.06)' }} />
       </div>
 
       {/* ═══ PODCAST ═══ */}
-      <section className="podcast-callout" style={{ maxWidth: 900, margin: '0 auto', padding: '0 48px' }}>
+      <section className="podcast-callout eh-shell-padding" style={{ maxWidth: 900, margin: '0 auto', padding: '0 48px' }}>
         <div className="podcast-eyebrow" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: 6, textTransform: 'uppercase' as const, color: '#6E6555', marginBottom: 24 }}>
           {tx({ en: 'Podcast \u00b7 In Development', de: 'Podcast \u00b7 In Entwicklung', es: 'Podcast \u00b7 En desarrollo' })}
         </div>
