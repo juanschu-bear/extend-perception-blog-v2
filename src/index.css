@@ -74,13 +74,13 @@ body {
 
 .premium-btn-primary {
   border: 2px solid rgba(201, 169, 110, 0.5);
-  background: linear-gradient(135deg, rgba(201, 169, 110, 0.1), rgba(212, 164, 78, 0.06));
-  box-shadow: 0 0 20px rgba(201, 169, 110, 0.1), inset 0 0 20px rgba(201, 169, 110, 0.03);
+  background: linear-gradient(135deg, rgba(201, 169, 110, 0.12), rgba(212, 164, 78, 0.06));
+  box-shadow: 0 0 30px rgba(201, 169, 110, 0.12), 0 0 60px rgba(201, 169, 110, 0.04);
 }
 
 .premium-btn-primary:hover {
   border-color: rgba(201, 169, 110, 0.8);
-  box-shadow: 0 0 40px rgba(201, 169, 110, 0.25), inset 0 0 30px rgba(201, 169, 110, 0.06);
+  box-shadow: 0 0 40px rgba(201, 169, 110, 0.25), 0 0 80px rgba(201, 169, 110, 0.08);
   background: linear-gradient(135deg, rgba(201, 169, 110, 0.18), rgba(212, 164, 78, 0.1));
   transform: scale(1.03);
 }
@@ -100,20 +100,28 @@ body {
 }
 
 .premium-btn-hero {
-  padding: 18px 48px;
+  padding: 20px 56px;
+  font-size: 13px;
+  letter-spacing: 5px;
 }
 
 .premium-btn-small {
-  padding: 18px 48px;
+  padding: 20px 56px;
 }
 
 .cta-subtle-link {
   display: inline-block;
-  margin-top: 40px;
+  margin-top: 48px;
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
-  font-size: 16px;
+  font-size: 18px;
   letter-spacing: 0.5px;
+  color: #c9a96e;
+  text-decoration: none;
+}
+
+.cta-subtle-link:hover {
+  text-decoration: underline;
 }
 
 .signup-form {
@@ -155,18 +163,18 @@ body {
   width: 100%;
   background: rgba(201, 169, 110, 0.03);
   border: 1px solid rgba(201, 169, 110, 0.2);
-  border-radius: 8px;
+  border-radius: 12px;
   color: #d4ccba;
-  padding: 14px 20px;
+  padding: 16px 24px;
   font-family: 'Source Sans 3', sans-serif;
-  font-size: 15px;
+  font-size: 16px;
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .signup-input:focus {
-  border-color: rgba(201, 169, 110, 0.5);
-  box-shadow: 0 0 16px rgba(201, 169, 110, 0.1);
+  border-color: rgba(201, 169, 110, 0.6);
+  box-shadow: 0 0 20px rgba(201, 169, 110, 0.1);
 }
 
 .signup-error {
@@ -191,6 +199,90 @@ body {
   color: #c9a96e;
   font-family: 'Source Sans 3', sans-serif;
   font-size: 13px;
+}
+
+.hero-cta-primary-wrap {
+  margin-top: 12px;
+}
+
+.hero-cta-line {
+  margin-top: 48px !important;
+}
+
+.hero-cta-note {
+  margin-top: 14px !important;
+}
+
+.hero-byline {
+  margin-top: 56px !important;
+  margin-bottom: 40px !important;
+}
+
+.hero-scroll-indicator {
+  bottom: 8px !important;
+}
+
+.essay-event-card {
+  border-radius: 20px;
+  isolation: isolate;
+}
+
+.essay-event-card::before {
+  content: "";
+  position: absolute;
+  inset: -18% -8%;
+  background: radial-gradient(ellipse, rgba(201, 169, 110, 0.15), transparent 70%);
+  z-index: -1;
+  pointer-events: none;
+  animation: essayPulse 4s ease-in-out infinite;
+}
+
+.essay-event-topline {
+  background-size: 220% 100% !important;
+  animation: shimmer 3s linear infinite;
+}
+
+.essay-event-label {
+  text-shadow: 0 0 20px rgba(212, 164, 78, 0.3);
+}
+
+.essay-event-title {
+  text-shadow: 0 0 40px rgba(201, 169, 110, 0.15);
+}
+
+.essay-event-date {
+  text-shadow: 0 0 16px rgba(212, 164, 78, 0.3);
+}
+
+.subscribe-card {
+  border-radius: 20px;
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(201, 169, 110, 0.08), transparent 60%),
+    linear-gradient(135deg, rgba(201, 169, 110, 0.03), rgba(139, 77, 92, 0.02), transparent) !important;
+}
+
+.subscribe-title {
+  text-shadow: 0 0 30px rgba(201, 169, 110, 0.1);
+}
+
+.footer-premium {
+  position: relative;
+}
+
+.footer-premium::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 169, 110, 0.75), transparent);
+  background-size: 240% 100%;
+  animation: shimmer 3s linear infinite;
+}
+
+.footer-loop-title {
+  text-shadow: 0 0 20px rgba(201, 169, 110, 0.15);
 }
 
 .eh-glow-card {
@@ -233,6 +325,16 @@ body {
 
 .eh-quote-btn:hover {
   box-shadow: 0 0 20px rgba(201, 169, 110, 0.16);
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes essayPulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.05); }
 }
 
 @media (max-width: 760px) {

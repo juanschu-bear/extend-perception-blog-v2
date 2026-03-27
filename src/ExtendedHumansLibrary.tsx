@@ -172,14 +172,14 @@ export default function ExtendedHumansLibrary(): JSX.Element {
             {tx({ en: 'What makes you sure you really are what you think?', de: 'Was macht dich so sicher, dass du wirklich bist, was du denkst?', es: '\u00bfQu\u00e9 te hace tan seguro de que realmente eres lo que crees?' })}
           </p>
 
-          <div style={{ opacity: 0, animation: 'fadeIn 1s ease 1.7s forwards' }}>
+          <div className="hero-cta-primary-wrap" style={{ opacity: 0, animation: 'fadeIn 1s ease 1.7s forwards' }}>
             <a href="#stacks" className="premium-btn premium-btn-primary premium-btn-hero">
               {tx({ en: 'Access the Knowledge', de: 'Zugang zum Wissen', es: 'Accede al conocimiento' })}
             </a>
           </div>
 
-          <div style={{ width: 60, height: 1, background: 'rgba(201,169,110,0.3)', margin: '40px auto 0', opacity: 0, animation: 'fadeIn 1s ease 1.8s forwards' }} />
-          <p style={{ marginTop: 40, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: 2, color: '#6E6555', maxWidth: 680, marginLeft: 'auto', marginRight: 'auto', opacity: 0, animation: 'fadeIn 1s ease 1.85s forwards' }}>
+          <div className="hero-cta-line" style={{ width: 60, height: 1, background: 'rgba(201,169,110,0.3)', margin: '48px auto 0', opacity: 0, animation: 'fadeIn 1s ease 1.8s forwards' }} />
+          <p className="hero-cta-note" style={{ marginTop: 40, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: 2, color: '#6E6555', maxWidth: 680, marginLeft: 'auto', marginRight: 'auto', opacity: 0, animation: 'fadeIn 1s ease 1.85s forwards' }}>
             {tx({
               en: 'New articles, the essay, and the podcast. Delivered when they drop.',
               de: 'Neue Artikel, das Essay und der Podcast. Direkt wenn sie erscheinen.',
@@ -187,11 +187,11 @@ export default function ExtendedHumansLibrary(): JSX.Element {
             })}
           </p>
 
-          <a href="#subscribe" className="premium-btn premium-btn-secondary cta-subtle-link" style={{ opacity: 0, animation: 'fadeIn 1s ease 1.9s forwards' }}>
+          <a href="#subscribe" className="cta-subtle-link" style={{ opacity: 0, animation: 'fadeIn 1s ease 1.9s forwards' }}>
             {tx({ en: 'Get Early Access →', de: 'Früher Zugang →', es: 'Acceso anticipado →' })}
           </a>
 
-          <div style={{ marginTop: 40, display: 'flex', flexDirection: 'column' as const, alignItems: 'center' as const, gap: 8, opacity: 0, animation: 'fadeIn 1s ease 2s forwards' }}>
+          <div className="hero-byline" style={{ marginTop: 56, marginBottom: 40, display: 'flex', flexDirection: 'column' as const, alignItems: 'center' as const, gap: 8, opacity: 0, animation: 'fadeIn 1s ease 2s forwards' }}>
             <div style={{ width: 40, height: 1, background: 'rgba(201,169,110,0.2)', marginBottom: 8 }} />
             <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: 4, color: '#6E6555', textTransform: 'uppercase' as const }}>Juan Schubert</span>
             <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: 4, color: '#6E6555', textTransform: 'uppercase' as const }}>ONIOKO</span>
@@ -199,7 +199,7 @@ export default function ExtendedHumansLibrary(): JSX.Element {
         </div>
 
         {/* Scroll cue */}
-        <div style={{ position: 'absolute' as const, bottom: 32, left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column' as const, alignItems: 'center' as const, gap: 10, opacity: 0, animation: 'fadeIn 1s ease 2.2s forwards' }}>
+        <div className="hero-scroll-indicator" style={{ position: 'absolute' as const, bottom: 20, left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column' as const, alignItems: 'center' as const, gap: 10, opacity: 0, animation: 'fadeIn 1s ease 2.2s forwards' }}>
           <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, letterSpacing: 5, color: 'rgba(201,169,110,0.3)', textTransform: 'uppercase' as const }}>
             {tx({ en: 'Scroll', de: 'Weiter', es: 'Continuar' })}
           </span>
@@ -231,9 +231,9 @@ export default function ExtendedHumansLibrary(): JSX.Element {
 
       {/* ═══ SUBSCRIBE ═══ */}
       <section id="subscribe" style={{ maxWidth: 900, margin: '0 auto', padding: '0 48px' }}>
-        <div style={{ position: 'relative' as const, padding: '52px 42px', border: '1px solid rgba(201,169,110,0.12)', background: 'linear-gradient(135deg, rgba(201,169,110,0.03), rgba(139,77,92,0.02), transparent)', textAlign: 'center' as const }}>
-          <div style={{ position: 'absolute' as const, top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, #C9A96E, transparent)', opacity: 0.3 }} />
-          <h3 style={{ margin: 0, marginBottom: 10, fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(28px,4vw,32px)', fontStyle: 'italic', fontWeight: 600, color: '#F5EDE0' }}>
+        <div className="subscribe-card" style={{ position: 'relative' as const, padding: '64px 48px', border: '1px solid rgba(201,169,110,0.12)', background: 'linear-gradient(135deg, rgba(201,169,110,0.03), rgba(139,77,92,0.02), transparent)', textAlign: 'center' as const }}>
+          <div className="subscribe-card-topline" style={{ position: 'absolute' as const, top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, #C9A96E, transparent)', opacity: 0.3 }} />
+          <h3 className="subscribe-title" style={{ margin: 0, marginBottom: 10, fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(28px,4vw,40px)', fontStyle: 'italic', fontWeight: 600, color: '#F5EDE0' }}>
             {tx({
               en: "Don't miss what comes next.",
               de: 'Verpasse nicht, was als Nächstes kommt.',
@@ -253,22 +253,22 @@ export default function ExtendedHumansLibrary(): JSX.Element {
 
       {/* ═══ ESSAY ═══ */}
       <section style={{ maxWidth: 900, margin: '0 auto', padding: '0 48px' }}>
-        <div style={{ padding: '56px 48px', position: 'relative' as const, overflow: 'hidden' as const, border: '1px solid rgba(201,169,110,0.1)', background: 'linear-gradient(135deg, rgba(201,169,110,0.03), rgba(139,77,92,0.02), transparent)' }}>
-          <div style={{ position: 'absolute' as const, top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, #C9A96E, transparent)', opacity: 0.3 }} />
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: 6, textTransform: 'uppercase' as const, color: '#D4A44E', marginBottom: 24 }}>
+        <div className="essay-event-card" style={{ padding: '72px 56px', position: 'relative' as const, overflow: 'hidden' as const, border: '2px solid rgba(201,169,110,0.25)', background: 'linear-gradient(135deg, rgba(201,169,110,0.06), rgba(139,77,92,0.04), rgba(201,169,110,0.03))' }}>
+          <div className="essay-event-topline" style={{ position: 'absolute' as const, top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, transparent, #C9A96E, transparent)', opacity: 0.7 }} />
+          <div className="essay-event-label" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: 6, textTransform: 'uppercase' as const, color: '#D4A44E', marginBottom: 24 }}>
             {tx({ en: 'First Essay \u00b7 Coming Soon', de: 'Erstes Essay \u00b7 Bald verf\u00fcgbar', es: 'Primer ensayo \u00b7 Pr\u00f3ximamente' })}
           </div>
-          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(28px,4vw,44px)', fontWeight: 600, fontStyle: 'italic', color: '#F5EDE0', marginBottom: 16, lineHeight: 1.15 }}>
+          <div className="essay-event-title" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(36px,5vw,56px)', fontWeight: 600, fontStyle: 'italic', color: '#FFFFFF', marginBottom: 16, lineHeight: 1.15 }}>
             {tx({ en: 'The Extended Humans Essay', de: 'Das Extended Humans Essay', es: 'El ensayo Extended Humans' })}
           </div>
-          <p style={{ fontSize: 16, fontWeight: 300, color: '#6E6555', maxWidth: 480, lineHeight: 1.7, marginBottom: 28 }}>
+          <p className="essay-event-description" style={{ fontSize: 16, fontWeight: 300, color: '#9B917F', maxWidth: 480, lineHeight: 1.7, marginBottom: 28 }}>
             {tx({
               en: "A long-form exploration that goes deeper than any article before it. The manifesto. The philosophy. The case for why the next version of you isn't science fiction.",
               de: "Eine tiefgehende Erkundung, die weiter geht als jeder Artikel zuvor. Das Manifest. Die Philosophie. Das Argument, warum die n\u00e4chste Version von dir keine Science-Fiction ist.",
               es: "Una exploraci\u00f3n profunda que va m\u00e1s all\u00e1 de cualquier art\u00edculo anterior. El manifiesto. La filosof\u00eda. El argumento de por qu\u00e9 la pr\u00f3xima versi\u00f3n de ti no es ciencia ficci\u00f3n.",
             })}
           </p>
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: '#C9A96E', letterSpacing: 3 }}>
+          <div className="essay-event-date" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: '#D4A44E', letterSpacing: 3 }}>
             {tx({ en: 'April 15, 2026', de: '15. April 2026', es: '15 de abril de 2026' })}
           </div>
         </div>
@@ -296,12 +296,12 @@ export default function ExtendedHumansLibrary(): JSX.Element {
       </section>
 
       {/* ═══ FOOTER ═══ */}
-      <footer style={{ padding: '80px 48px 48px', borderTop: '1px solid rgba(201,169,110,0.06)', textAlign: 'center' as const, marginTop: 120 }}>
-        <div style={{ maxWidth: 900, margin: '0 auto', padding: '60px 0', textAlign: 'center' as const }}>
-          <p style={{ marginTop: 0, marginBottom: 10, fontFamily: "'Cormorant Garamond', serif", fontSize: 24, fontStyle: 'italic', color: '#C9A96E' }}>
+      <footer className="footer-premium" style={{ padding: '80px 48px 48px', borderTop: '1px solid rgba(201,169,110,0.1)', textAlign: 'center' as const, marginTop: 120 }}>
+        <div style={{ maxWidth: 900, margin: '0 auto', padding: '80px 0', textAlign: 'center' as const }}>
+          <p className="footer-loop-title" style={{ marginTop: 0, marginBottom: 10, fontFamily: "'Cormorant Garamond', serif", fontSize: 28, fontStyle: 'italic', color: '#C9A96E' }}>
             {tx({ en: 'Stay in the loop.', de: 'Bleib auf dem Laufenden.', es: 'Mantente al tanto.' })}
           </p>
-          <p style={{ marginTop: 0, marginBottom: 24, fontFamily: "'Source Sans 3', sans-serif", fontSize: 14, color: '#6E6555' }}>
+          <p style={{ marginTop: 0, marginBottom: 24, fontFamily: "'Source Sans 3', sans-serif", fontSize: 14, color: '#8B8070' }}>
             {tx({
               en: 'Every new thought, delivered to you.',
               de: 'Jeder neue Gedanke, direkt zu dir.',
