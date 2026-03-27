@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, type JSX } from 'react';
+import SignupForm from './components/SignupForm';
 
 type Lang = 'en' | 'de' | 'es';
 
@@ -171,12 +172,26 @@ export default function ExtendedHumansLibrary(): JSX.Element {
             {tx({ en: 'What makes you sure you really are what you think?', de: 'Was macht dich so sicher, dass du wirklich bist, was du denkst?', es: '\u00bfQu\u00e9 te hace tan seguro de que realmente eres lo que crees?' })}
           </p>
 
-          <a href="#stacks" style={{ display: 'inline-flex', alignItems: 'center' as const, gap: 16, padding: '14px 36px', border: '1px solid rgba(201,169,110,0.25)', background: 'transparent', cursor: 'pointer', textDecoration: 'none', letterSpacing: 4, opacity: 0, animation: 'fadeIn 1s ease 1.7s forwards', transition: 'all 0.5s' }}>
-            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, textTransform: 'uppercase' as const, color: '#C9A96E' }}>
-              {tx({ en: 'Enter', de: 'Eintreten', es: 'Entrar' })}
-            </span>
-            <span style={{ fontSize: 16, color: '#C9A96E' }}>{'\u2192'}</span>
-          </a>
+          <div style={{ display: 'flex', flexWrap: 'wrap' as const, justifyContent: 'center', gap: 12, opacity: 0, animation: 'fadeIn 1s ease 1.7s forwards' }}>
+            <a href="#stacks" style={{ display: 'inline-flex', alignItems: 'center' as const, gap: 16, padding: '14px 30px', border: '1px solid rgba(201,169,110,0.25)', background: 'transparent', cursor: 'pointer', textDecoration: 'none', letterSpacing: 3, transition: 'all 0.5s' }}>
+              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, textTransform: 'uppercase' as const, color: '#C9A96E' }}>
+                {tx({ en: 'Access the Knowledge', de: 'Zugang zum Wissen', es: 'Accede al conocimiento' })}
+              </span>
+            </a>
+            <a href="#subscribe" style={{ display: 'inline-flex', alignItems: 'center' as const, gap: 16, padding: '14px 30px', border: '1px solid rgba(201,169,110,0.25)', background: 'transparent', cursor: 'pointer', textDecoration: 'none', letterSpacing: 3, transition: 'all 0.5s' }}>
+              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, textTransform: 'uppercase' as const, color: '#C9A96E' }}>
+                {tx({ en: 'Get Early Access', de: 'Früher Zugang', es: 'Acceso anticipado' })}
+              </span>
+            </a>
+          </div>
+
+          <p style={{ marginTop: 16, fontFamily: "'Source Sans 3', sans-serif", fontSize: 13, color: '#6E6555', maxWidth: 520, marginLeft: 'auto', marginRight: 'auto', opacity: 0, animation: 'fadeIn 1s ease 1.8s forwards' }}>
+            {tx({
+              en: 'New articles, the essay, and the podcast. Delivered when they drop.',
+              de: 'Neue Artikel, das Essay und der Podcast. Direkt wenn sie erscheinen.',
+              es: 'Nuevos artículos, el ensayo y el podcast. Directo cuando salen.',
+            })}
+          </p>
 
           <div style={{ marginTop: 48, display: 'flex', flexDirection: 'column' as const, alignItems: 'center' as const, gap: 8, opacity: 0, animation: 'fadeIn 1s ease 1.9s forwards' }}>
             <div style={{ width: 40, height: 1, background: 'rgba(201,169,110,0.2)', marginBottom: 8 }} />
@@ -215,6 +230,27 @@ export default function ExtendedHumansLibrary(): JSX.Element {
         <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 18, fontStyle: 'italic', color: 'rgba(201,169,110,0.2)' }}>{'\u25C7'}</span>
         <div style={{ flex: 1, height: 1, background: 'rgba(201,169,110,0.06)' }} />
       </div>
+
+      {/* ═══ SUBSCRIBE ═══ */}
+      <section id="subscribe" style={{ maxWidth: 900, margin: '0 auto', padding: '0 48px' }}>
+        <div style={{ padding: '40px 34px', border: '1px solid rgba(201,169,110,0.16)', background: 'linear-gradient(135deg, rgba(201,169,110,0.05), rgba(139,77,92,0.03), transparent)' }}>
+          <h3 style={{ margin: 0, marginBottom: 10, fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(28px,4vw,38px)', fontWeight: 600, color: '#F5EDE0' }}>
+            {tx({
+              en: "Don't miss what comes next.",
+              de: 'Verpasse nicht, was als Nächstes kommt.',
+              es: 'No te pierdas lo que viene.',
+            })}
+          </h3>
+          <p style={{ marginTop: 0, marginBottom: 24, fontFamily: "'Source Sans 3', sans-serif", fontSize: 16, color: '#6E6555', maxWidth: 620 }}>
+            {tx({
+              en: 'The Extended Humans essay drops April 15. Be the first to read it.',
+              de: 'Das Extended Humans Essay erscheint am 15. April. Lies es als Erster.',
+              es: 'El ensayo Extended Humans sale el 15 de abril. Sé el primero en leerlo.',
+            })}
+          </p>
+          <SignupForm lang={lang} />
+        </div>
+      </section>
 
       {/* ═══ ESSAY ═══ */}
       <section style={{ maxWidth: 900, margin: '0 auto', padding: '0 48px' }}>
@@ -262,6 +298,12 @@ export default function ExtendedHumansLibrary(): JSX.Element {
 
       {/* ═══ FOOTER ═══ */}
       <footer style={{ padding: '80px 48px 48px', borderTop: '1px solid rgba(201,169,110,0.06)', textAlign: 'center' as const, marginTop: 120 }}>
+        <div style={{ maxWidth: 720, margin: '0 auto 32px', textAlign: 'left' as const }}>
+          <p style={{ marginTop: 0, marginBottom: 12, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: 3, textTransform: 'uppercase' as const, color: '#C9A96E' }}>
+            {tx({ en: 'Stay in the loop.', de: 'Bleib auf dem Laufenden.', es: 'Mantente al tanto.' })}
+          </p>
+          <SignupForm lang={lang} compact />
+        </div>
         <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 16, fontWeight: 600, letterSpacing: 6, color: 'rgba(201,169,110,0.2)', textTransform: 'uppercase' as const, marginBottom: 16 }}>Extended Humans</div>
         <p style={{ fontSize: 14, fontWeight: 300, color: '#6E6555', maxWidth: 460, margin: '0 auto 24px', lineHeight: 1.7 }}>
           {tx({

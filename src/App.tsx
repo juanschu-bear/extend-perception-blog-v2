@@ -1,5 +1,5 @@
 import { useEffect, useRef, type JSX } from 'react'
-import { Routes, Route, Navigate, Link, useNavigate } from 'react-router-dom'
+import { Routes, Route, Navigate, Link, useNavigate, useLocation } from 'react-router-dom'
 import ExtendedHumansLibrary from './ExtendedHumansLibrary'
 import ConsciousnessArticle from './articles/ConsciousnessArticle'
 import DataMachineArticle from './articles/DataMachineArticle'
@@ -20,6 +20,12 @@ const rowTargets: RowTarget[] = [
   { slug: '/language-trap' },
   { slug: '/emotions-installed' },
 ]
+
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+  return null
+}
 
 function ClickableLibrary(): JSX.Element {
   const navigate = useNavigate()
@@ -67,17 +73,19 @@ function ClickableLibrary(): JSX.Element {
 
 function ArticleShell({ children }: { children: JSX.Element }): JSX.Element {
   return (
-    <>
+    <div className="route-page">
       <Link to="/" className="back-link">Back to Library</Link>
       {children}
-    </>
+    </div>
   )
 }
 
 export default function App(): JSX.Element {
   return (
-    <Routes>
-      <Route path="/" element={<ClickableLibrary />} />
+    <>
+      <ScrollToTop />
+      <Routes>
+      <Route path="/" element={<div className="route-page"><ClickableLibrary /></div>} />
       <Route path="/ai-consciousness" element={<ArticleShell><ConsciousnessArticle /></ArticleShell>} />
       <Route path="/data-machine" element={<ArticleShell><DataMachineArticle /></ArticleShell>} />
       <Route path="/the-more-you-learn" element={<ArticleShell><LearningArticle /></ArticleShell>} />
@@ -85,6 +93,7 @@ export default function App(): JSX.Element {
       <Route path="/language-trap" element={<ArticleShell><LanguageTrapArticle /></ArticleShell>} />
       <Route path="/emotions-installed" element={<ArticleShell><EmotionsArticle /></ArticleShell>} />
       <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+      </Routes>
+    </>
   )
 }
