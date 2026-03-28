@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type FormEvent, type JSX } from 'react'
+import { useEffect, useMemo, useRef, useState, type Dispatch, type FormEvent, type JSX, type SetStateAction } from 'react'
 import { Routes, Route, Navigate, Link, useNavigate, useLocation } from 'react-router-dom'
 import ExtendedHumansLibrary from './ExtendedHumansLibrary'
 import ConsciousnessArticle from './articles/ConsciousnessArticle'
@@ -164,6 +164,7 @@ type EngagementReply = {
   text: string
   createdAt: string
   likes: number
+  replies: EngagementReply[]
 }
 
 type EngagementState = {
@@ -201,6 +202,21 @@ function ArticleEngagement({ articleKey }: { articleKey: string }): JSX.Element 
 
   const t = (copy: Record<'en' | 'de' | 'es', string>) => copy[uiLang]
 
+  const normalizeReplies = (items: unknown): EngagementReply[] => {
+    if (!Array.isArray(items)) return []
+    return items.map((item) => {
+      const reply = item as Partial<EngagementReply>
+      return {
+        id: typeof reply.id === 'string' ? reply.id : `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+        name: typeof reply.name === 'string' ? reply.name : t({ en: 'Anonymous', de: 'Anonym', es: 'Anónimo' }),
+        text: typeof reply.text === 'string' ? reply.text : '',
+        createdAt: typeof reply.createdAt === 'string' ? reply.createdAt : new Date().toISOString(),
+        likes: typeof reply.likes === 'number' ? reply.likes : 0,
+        replies: normalizeReplies((reply as { replies?: unknown }).replies),
+      }
+    })
+  }
+
   useEffect(() => {
     const syncLang = () => {
       const saved = window.localStorage.getItem('eh:lang')
@@ -235,7 +251,7 @@ function ArticleEngagement({ articleKey }: { articleKey: string }): JSX.Element 
             rating: typeof comment.rating === 'number' && comment.rating > 0
               ? comment.rating
               : (typeof parsed.userRating === 'number' && parsed.userRating > 0 ? parsed.userRating : 4),
-            replies: Array.isArray(comment.replies) ? comment.replies : [],
+            replies: normalizeReplies((comment as { replies?: unknown }).replies),
           }))
           : [],
       )
@@ -296,17 +312,19 @@ function ArticleEngagement({ articleKey }: { articleKey: string }): JSX.Element 
   }
 
   const toggleReplyLike = (commentId: string, replyId: string) => {
-    const key = `${commentId}:${replyId}`
+    const key = replyId
     const alreadyLiked = likedReplyIds.includes(key)
+
+    const updateLikes = (replies: EngagementReply[]): EngagementReply[] => replies.map((reply) => {
+      if (reply.id === replyId) {
+        return { ...reply, likes: Math.max(0, reply.likes + (alreadyLiked ? -1 : 1)) }
+      }
+      return { ...reply, replies: updateLikes(reply.replies) }
+    })
+
     setComments((prev) => prev.map((comment) => {
       if (comment.id !== commentId) return comment
-      return {
-        ...comment,
-        replies: comment.replies.map((reply) => {
-          if (reply.id !== replyId) return reply
-          return { ...reply, likes: Math.max(0, reply.likes + (alreadyLiked ? -1 : 1)) }
-        }),
-      }
+      return { ...comment, replies: updateLikes(comment.replies) }
     }))
     setLikedReplyIds((prev) => {
       if (alreadyLiked) return prev.filter((value) => value !== key)
@@ -330,8 +348,13 @@ function ArticleEngagement({ articleKey }: { articleKey: string }): JSX.Element 
   }
 
   const submitReply = (event: FormEvent<HTMLFormElement>, commentId: string) => {
+    submitNestedReply(event, commentId, null)
+  }
+
+  const submitNestedReply = (event: FormEvent<HTMLFormElement>, commentId: string, targetReplyId: string | null) => {
     event.preventDefault()
-    const draft = replyDrafts[commentId]
+    const draftKey = targetReplyId ? `${commentId}:${targetReplyId}` : commentId
+    const draft = replyDrafts[draftKey]
     if (!draft || draft.text.trim().length < 2) return
 
     const newReply: EngagementReply = {
@@ -340,16 +363,33 @@ function ArticleEngagement({ articleKey }: { articleKey: string }): JSX.Element 
       text: draft.text.trim(),
       createdAt: new Date().toISOString(),
       likes: 0,
+      replies: [],
     }
 
+    const insertReply = (replies: EngagementReply[]): EngagementReply[] => replies.map((reply) => {
+      if (reply.id === targetReplyId) {
+        return { ...reply, replies: [...reply.replies, newReply] }
+      }
+      return { ...reply, replies: insertReply(reply.replies) }
+    })
+
     setComments((prev) => prev.map((comment) => (
-      comment.id === commentId ? { ...comment, replies: [...comment.replies, newReply] } : comment
+      comment.id === commentId
+        ? {
+          ...comment,
+          replies: targetReplyId ? insertReply(comment.replies) : [...comment.replies, newReply],
+        }
+        : comment
     )))
     setReplyDrafts((prev) => ({
       ...prev,
-      [commentId]: { name: '', text: '', open: false },
+      [draftKey]: { name: '', text: '', open: false },
     }))
-    setExpandedReplies((prev) => ({ ...prev, [commentId]: true }))
+    setExpandedReplies((prev) => ({
+      ...prev,
+      [commentId]: true,
+      ...(targetReplyId ? { [targetReplyId]: true } : {}),
+    }))
   }
 
   const handleSubmitComment = (event: FormEvent<HTMLFormElement>) => {
@@ -577,26 +617,19 @@ function ArticleEngagement({ articleKey }: { articleKey: string }): JSX.Element 
                 )}
 
                 {repliesOpen && comment.replies.length > 0 && (
-                  <div className="article-replies-list">
-                    {comment.replies.map((reply) => {
-                      const replyKey = `${comment.id}:${reply.id}`
-                      const replyLiked = likedReplyIds.includes(replyKey)
-                      return (
-                        <div key={reply.id} className="article-reply-item">
-                          <div className="article-comment-head">
-                            <strong>{reply.name}</strong>
-                            <span>{new Date(reply.createdAt).toLocaleString()}</span>
-                          </div>
-                          <p>{reply.text}</p>
-                          <button type="button" onClick={() => toggleReplyLike(comment.id, reply.id)} className={`article-comment-like ${replyLiked ? 'is-active' : ''}`}>
-                            {replyLiked
-                              ? t({ en: 'Liked', de: 'Gefällt mir', es: 'Me gusta' })
-                              : t({ en: 'Like', de: 'Gefällt mir', es: 'Me gusta' })} · {reply.likes}
-                          </button>
-                        </div>
-                      )
-                    })}
-                  </div>
+                  <ReplyThread
+                    replies={comment.replies}
+                    commentId={comment.id}
+                    t={t}
+                    likedReplyIds={likedReplyIds}
+                    expandedReplies={expandedReplies}
+                    replyDrafts={replyDrafts}
+                    toggleReplyLike={toggleReplyLike}
+                    toggleReplies={toggleReplies}
+                    toggleReplyForm={toggleReplyForm}
+                    setReplyDrafts={setReplyDrafts}
+                    submitNestedReply={submitNestedReply}
+                  />
                 )}
               </article>
             )
@@ -614,6 +647,106 @@ function ArticleEngagement({ articleKey }: { articleKey: string }): JSX.Element 
         </div>
       </div>
     </section>
+  )
+}
+
+type ReplyThreadProps = {
+  replies: EngagementReply[]
+  commentId: string
+  t: (copy: Record<'en' | 'de' | 'es', string>) => string
+  likedReplyIds: string[]
+  expandedReplies: Record<string, boolean>
+  replyDrafts: Record<string, { name: string; text: string; open: boolean }>
+  toggleReplyLike: (commentId: string, replyId: string) => void
+  toggleReplies: (commentId: string) => void
+  toggleReplyForm: (commentId: string) => void
+  setReplyDrafts: Dispatch<SetStateAction<Record<string, { name: string; text: string; open: boolean }>>>
+  submitNestedReply: (event: FormEvent<HTMLFormElement>, commentId: string, targetReplyId: string | null) => void
+}
+
+function ReplyThread({
+  replies,
+  commentId,
+  t,
+  likedReplyIds,
+  expandedReplies,
+  replyDrafts,
+  toggleReplyLike,
+  toggleReplies,
+  toggleReplyForm,
+  setReplyDrafts,
+  submitNestedReply,
+}: ReplyThreadProps): JSX.Element {
+  return (
+    <div className="article-replies-list">
+      {replies.map((reply) => {
+        const replyLiked = likedReplyIds.includes(reply.id)
+        const nestedOpen = !!expandedReplies[reply.id]
+        const draftKey = `${commentId}:${reply.id}`
+        const draft = replyDrafts[draftKey] ?? { name: '', text: '', open: false }
+
+        return (
+          <div key={reply.id} className="article-reply-item">
+            <div className="article-comment-head">
+              <strong>{reply.name}</strong>
+              <span>{new Date(reply.createdAt).toLocaleString()}</span>
+            </div>
+            <p>{reply.text}</p>
+            <div className="article-comment-actions">
+              <button type="button" onClick={() => toggleReplyLike(commentId, reply.id)} className={`article-reply-action ${replyLiked ? 'is-active' : ''}`}>
+                {replyLiked
+                  ? t({ en: 'Liked', de: 'Gefällt mir', es: 'Me gusta' })
+                  : t({ en: 'Like', de: 'Gefällt mir', es: 'Me gusta' })} · {reply.likes}
+              </button>
+              <button type="button" onClick={() => toggleReplyForm(draftKey)} className="article-reply-action">
+                {t({ en: 'Reply', de: 'Antworten', es: 'Responder' })}
+              </button>
+              <button type="button" onClick={() => toggleReplies(reply.id)} className="article-reply-action">
+                {nestedOpen
+                  ? t({ en: 'Hide replies', de: 'Antworten ausblenden', es: 'Ocultar respuestas' })
+                  : t({ en: 'Show replies', de: 'Antworten anzeigen', es: 'Ver respuestas' })} · {reply.replies.length}
+              </button>
+            </div>
+
+            {draft.open && (
+              <form className="article-reply-form" onSubmit={(event) => submitNestedReply(event, commentId, reply.id)}>
+                <input
+                  type="text"
+                  maxLength={50}
+                  value={draft.name}
+                  onChange={(event) => setReplyDrafts((prev) => ({ ...prev, [draftKey]: { ...draft, name: event.target.value, open: true } }))}
+                  placeholder={t({ en: 'Your name (optional)', de: 'Dein Name (optional)', es: 'Tu nombre (opcional)' })}
+                />
+                <textarea
+                  value={draft.text}
+                  onChange={(event) => setReplyDrafts((prev) => ({ ...prev, [draftKey]: { ...draft, text: event.target.value, open: true } }))}
+                  placeholder={t({ en: 'Write a reply...', de: 'Schreibe eine Antwort...', es: 'Escribe una respuesta...' })}
+                  rows={3}
+                  required
+                />
+                <button type="submit">{t({ en: 'Post Reply', de: 'Antwort posten', es: 'Publicar respuesta' })}</button>
+              </form>
+            )}
+
+            {nestedOpen && reply.replies.length > 0 && (
+              <ReplyThread
+                replies={reply.replies}
+                commentId={commentId}
+                t={t}
+                likedReplyIds={likedReplyIds}
+                expandedReplies={expandedReplies}
+                replyDrafts={replyDrafts}
+                toggleReplyLike={toggleReplyLike}
+                toggleReplies={toggleReplies}
+                toggleReplyForm={toggleReplyForm}
+                setReplyDrafts={setReplyDrafts}
+                submitNestedReply={submitNestedReply}
+              />
+            )}
+          </div>
+        )
+      })}
+    </div>
   )
 }
 

@@ -410,6 +410,27 @@ body {
   margin-top: 8px;
 }
 
+.article-reply-action {
+  border: none;
+  background: transparent;
+  color: rgba(245, 237, 224, 0.72);
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.6px;
+  cursor: pointer;
+}
+
+.article-reply-action:hover {
+  background: rgba(201, 169, 110, 0.08);
+  color: #f5ede0;
+}
+
+.article-reply-action.is-active {
+  color: #d8b673;
+}
+
 @media (max-width: 760px) {
   .article-engagement {
     padding: 0 18px;
