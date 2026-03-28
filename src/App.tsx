@@ -167,8 +167,6 @@ type EngagementReply = {
 }
 
 type EngagementState = {
-  articleLikes: number
-  userLikedArticle: boolean
   userRating: number
   comments: EngagementComment[]
   likedCommentIds: string[]
@@ -178,8 +176,6 @@ type EngagementState = {
 function ArticleEngagement({ articleKey }: { articleKey: string }): JSX.Element {
   const storageKey = `eh:engagement:${articleKey}`
   const [ready, setReady] = useState(false)
-  const [articleLikes, setArticleLikes] = useState(0)
-  const [userLikedArticle, setUserLikedArticle] = useState(false)
   const [userRating, setUserRating] = useState(0)
   const [comments, setComments] = useState<EngagementComment[]>([])
   const [likedCommentIds, setLikedCommentIds] = useState<string[]>([])
@@ -208,15 +204,17 @@ function ArticleEngagement({ articleKey }: { articleKey: string }): JSX.Element 
     }
     syncLang()
     window.addEventListener('storage', syncLang)
-    return () => window.removeEventListener('storage', syncLang)
+    window.addEventListener('eh:lang-change', syncLang as EventListener)
+    return () => {
+      window.removeEventListener('storage', syncLang)
+      window.removeEventListener('eh:lang-change', syncLang as EventListener)
+    }
   }, [])
 
   useEffect(() => {
     try {
       const raw = localStorage.getItem(storageKey)
       if (!raw) {
-        setArticleLikes(0)
-        setUserLikedArticle(false)
         setUserRating(0)
         setComments([])
         setLikedCommentIds([])
@@ -225,8 +223,6 @@ function ArticleEngagement({ articleKey }: { articleKey: string }): JSX.Element 
         return
       }
       const parsed = JSON.parse(raw) as Partial<EngagementState>
-      setArticleLikes(parsed.articleLikes ?? 0)
-      setUserLikedArticle(parsed.userLikedArticle ?? false)
       setUserRating(parsed.userRating ?? 0)
       setComments(
         Array.isArray(parsed.comments)
@@ -240,8 +236,6 @@ function ArticleEngagement({ articleKey }: { articleKey: string }): JSX.Element 
       setLikedCommentIds(Array.isArray(parsed.likedCommentIds) ? parsed.likedCommentIds : [])
       setLikedReplyIds(Array.isArray(parsed.likedReplyIds) ? parsed.likedReplyIds : [])
     } catch {
-      setArticleLikes(0)
-      setUserLikedArticle(false)
       setUserRating(0)
       setComments([])
       setLikedCommentIds([])
@@ -254,15 +248,13 @@ function ArticleEngagement({ articleKey }: { articleKey: string }): JSX.Element 
   useEffect(() => {
     if (!ready) return
     const payload: EngagementState = {
-      articleLikes,
-      userLikedArticle,
       userRating,
       comments,
       likedCommentIds,
       likedReplyIds,
     }
     localStorage.setItem(storageKey, JSON.stringify(payload))
-  }, [ready, storageKey, articleLikes, userLikedArticle, userRating, comments, likedCommentIds, likedReplyIds])
+  }, [ready, storageKey, userRating, comments, likedCommentIds, likedReplyIds])
 
   const sortedComments = useMemo(
     () => {
@@ -278,15 +270,12 @@ function ArticleEngagement({ articleKey }: { articleKey: string }): JSX.Element 
     [comments, filter],
   )
 
-  const toggleArticleLike = () => {
-    if (userLikedArticle) {
-      setUserLikedArticle(false)
-      setArticleLikes((v) => Math.max(0, v - 1))
-      return
-    }
-    setUserLikedArticle(true)
-    setArticleLikes((v) => v + 1)
-  }
+  const averageRating = useMemo(() => {
+    const rated = comments.filter((c) => c.rating > 0)
+    if (!rated.length) return 0
+    const total = rated.reduce((sum, c) => sum + c.rating, 0)
+    return total / rated.length
+  }, [comments])
 
   const toggleCommentLike = (id: string) => {
     const alreadyLiked = likedCommentIds.includes(id)
@@ -380,7 +369,7 @@ function ArticleEngagement({ articleKey }: { articleKey: string }): JSX.Element 
   return (
     <section className="article-engagement">
       <div className="article-engagement-card">
-        <p className="article-engagement-eyebrow">Reader Feedback</p>
+        <p className="article-engagement-eyebrow">{t({ en: 'Reader Feedback', de: 'Lese-Feedback', es: 'Feedback de lectura' })}</p>
         <h3>{t({
           en: 'Rate this article and join the discussion',
           de: 'Bewerte diesen Artikel und diskutiere mit',
@@ -388,11 +377,10 @@ function ArticleEngagement({ articleKey }: { articleKey: string }): JSX.Element 
         })}</h3>
 
         <div className="article-engagement-actions">
-          <button type="button" className={`article-like-btn ${userLikedArticle ? 'is-active' : ''}`} onClick={toggleArticleLike}>
-            {userLikedArticle
-              ? t({ en: 'Liked', de: 'Gefällt mir', es: 'Me gusta' })
-              : t({ en: 'Like', de: 'Gefällt mir', es: 'Me gusta' })} · {articleLikes}
-          </button>
+          <div className="article-rating-summary">
+            {averageRating > 0 ? `${averageRating.toFixed(1)}/5` : '0.0/5'} · {comments.filter((c) => c.rating > 0).length}{' '}
+            {t({ en: 'ratings', de: 'Bewertungen', es: 'valoraciones' })}
+          </div>
           <div className="article-stars" role="radiogroup" aria-label="Rate article">
             {[1, 2, 3, 4, 5].map((star) => (
               <button
@@ -454,7 +442,7 @@ function ArticleEngagement({ articleKey }: { articleKey: string }): JSX.Element 
                 <div className="article-comment-head">
                   <strong>
                     {comment.name}
-                    {comment.rating > 0 && <span className="comment-rating">{' · '}{'★'.repeat(comment.rating)}</span>}
+                    <span className="comment-rating">{' · '}{comment.rating > 0 ? '★'.repeat(comment.rating) : t({ en: 'no rating', de: 'keine Bewertung', es: 'sin valoración' })}</span>
                   </strong>
                   <span>{new Date(comment.createdAt).toLocaleString()}</span>
                 </div>

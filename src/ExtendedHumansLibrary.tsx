@@ -122,6 +122,7 @@ export default function ExtendedHumansLibrary(): JSX.Element {
 
   useEffect(() => {
     window.localStorage.setItem('eh:lang', lang);
+    window.dispatchEvent(new Event('eh:lang-change'));
   }, [lang]);
 
   // Generate dust particles on mount
