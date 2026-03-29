@@ -306,7 +306,7 @@ export default function ExtendedHumansLibrary(): JSX.Element {
         <div className="social-proof-inner" style={{ maxWidth: 900, margin: '0 auto', padding: '0 clamp(20px, 5vw, 48px)', textAlign: 'center' as const }}>
           <h3 style={{ margin: 0, marginBottom: 32, fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(24px, 3.5vw, 36px)', fontWeight: 400, fontStyle: 'italic', color: '#F5EDE0', textAlign: 'center' as const }}>
             {tx({
-              en: 'Trusted & used by 1,100+ decision-makers in 7 countries',
+              en: 'Relied on by 1,100+ decision-makers in 7 countries',
               de: 'Über 1.100 Entscheidungsträger in 7 Ländern greifen darauf zurück & nutzen diese Inhalte',
               es: 'más de 1.100 decisores y líderes en siete países utilizan & se apoyan en estos contenidos.',
             })}
