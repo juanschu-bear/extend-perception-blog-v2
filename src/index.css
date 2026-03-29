@@ -594,6 +594,14 @@ body {
   font-size: 13px;
 }
 
+.signup-success-note {
+  margin: 6px 0 0;
+  color: rgba(201, 169, 110, 0.72);
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
 .hero-cta-primary-wrap {
   margin-top: 12px;
 }
