@@ -306,9 +306,9 @@ export default function ExtendedHumansLibrary(): JSX.Element {
         <div className="social-proof-inner" style={{ maxWidth: 900, margin: '0 auto', padding: '0 clamp(20px, 5vw, 48px)', textAlign: 'center' as const }}>
           <h3 style={{ margin: 0, marginBottom: 32, fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(24px, 3.5vw, 36px)', fontWeight: 400, fontStyle: 'italic', color: '#F5EDE0', textAlign: 'center' as const }}>
             {tx({
-              en: 'Trusted by thinkers in 14+ countries',
-              de: 'Gelesen von Denkern in über 14 Ländern',
-              es: 'Leído por pensadores en más de 14 países',
+              en: 'Trusted by 1,100+ thinkers in 7+ countries',
+              de: 'Gelesen von 1.100+ Denkern in 7+ Ländern',
+              es: 'Leído por más de 1.100 pensadores en 7+ países',
             })}
           </h3>
           <div
