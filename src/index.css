@@ -86,6 +86,15 @@ body {
   text-transform: uppercase;
 }
 
+.article-inline-icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  margin-right: 8px;
+  vertical-align: -3px;
+  opacity: 0.9;
+}
+
 .article-share-card small {
   display: block;
   margin-top: 8px;

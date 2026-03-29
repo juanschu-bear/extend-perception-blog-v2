@@ -170,6 +170,8 @@ export default function ExtendedHumansLibrary(): JSX.Element {
         .footer-loop-title{font-size:clamp(36px,5.2vw,58px)!important;line-height:1.02;letter-spacing:.01em;text-shadow:0 0 20px rgba(201,169,110,.2),0 0 36px rgba(92,152,255,.1);animation:footerHeadlinePulse 4.8s ease-in-out .9s infinite}
         .footer-loop-subtitle{font-size:clamp(18px,2.1vw,26px)!important;line-height:1.35;color:#9a8f7d!important;text-shadow:0 0 22px rgba(76,132,255,.1)}
         .social-proof-strip{padding:64px 0}
+        .hero-intro-text{color:#6E6555}
+        @media(min-width:980px){.hero-intro-text{color:#948A7B!important}}
         @media(max-width:760px){
           .social-proof-strip{padding:48px 20px!important}
           .social-proof-inner{padding:0!important}
@@ -220,6 +222,22 @@ export default function ExtendedHumansLibrary(): JSX.Element {
         <div style={{ position: 'absolute' as const, width: 600, height: 400, background: 'rgba(201,169,110,0.06)', borderRadius: '50%', filter: 'blur(100px)', top: '10%', left: '15%', animation: 'warmthDrift 15s ease-in-out infinite', pointerEvents: 'none' as const }} />
         <div style={{ position: 'absolute' as const, width: 500, height: 500, background: 'rgba(212,164,78,0.04)', borderRadius: '50%', filter: 'blur(100px)', bottom: '10%', right: '10%', animation: 'warmthDrift 18s ease-in-out infinite reverse', pointerEvents: 'none' as const }} />
         <div style={{ position: 'absolute' as const, width: 300, height: 300, background: 'rgba(139,77,92,0.04)', borderRadius: '50%', filter: 'blur(100px)', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', animation: 'warmthPulse 10s ease-in-out infinite', pointerEvents: 'none' as const }} />
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'absolute' as const,
+            inset: '8% 5% auto',
+            height: '84%',
+            backgroundImage: "url('/extended-humans-icon.png')",
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+            backgroundSize: 'min(62vw, 780px)',
+            opacity: 0.065,
+            filter: 'grayscale(15%) saturate(110%)',
+            pointerEvents: 'none' as const,
+            zIndex: 2,
+          }}
+        />
 
         {/* Arch */}
         <div style={{ position: 'absolute' as const, top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 'min(500px,80vw)', height: 'min(650px,85vh)', border: '1px solid rgba(201,169,110,0.08)', borderRadius: '250px 250px 0 0', pointerEvents: 'none' as const, opacity: 0, animation: 'archReveal 2s ease 0.3s forwards' }}>
@@ -241,7 +259,7 @@ export default function ExtendedHumansLibrary(): JSX.Element {
             <span style={{ fontSize: 'clamp(56px,11vw,140px)', fontStyle: 'italic', fontWeight: 600, display: 'block', letterSpacing: '-0.02em', background: 'linear-gradient(135deg, #C9A96E, #D4A44E, #C9A96E)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Humans.</span>
           </h1>
 
-          <p style={{ fontSize: 'clamp(15px,1.8vw,18px)', fontWeight: 300, color: '#6E6555', maxWidth: 520, margin: '0 auto 20px', lineHeight: 1.7, opacity: 0, animation: 'fadeIn 1s ease 1.1s forwards' }}>
+          <p className="hero-intro-text" style={{ fontSize: 'clamp(15px,1.8vw,18px)', fontWeight: 300, maxWidth: 520, margin: '0 auto 20px', lineHeight: 1.7, opacity: 0, animation: 'fadeIn 1s ease 1.1s forwards' }}>
             {tx({
               en: "I write about what it means to be human when the line between human and technology dissolves. Psychology, consciousness, perception, identity, and the question of whether what you believe about yourself truly belongs to you, or whether it was installed.",
               de: "Ich schreibe dar\u00fcber, was es bedeutet, Mensch zu sein, wenn sich die Grenze zwischen Mensch und Technologie aufl\u00f6st. Psychologie, Bewusstsein, Wahrnehmung, Identit\u00e4t, und die Frage, ob das, was du \u00fcber dich selbst glaubst, wirklich dir geh\u00f6rt oder ob es dir installiert wurde.",

@@ -234,7 +234,10 @@ function ArticleShareBar(): JSX.Element {
     <section className="article-share-block" aria-label="Share article">
       <div className="article-share-divider" />
       <div className="article-share-card">
-        <p>{t({ en: 'Share this article', de: 'Diesen Artikel teilen', es: 'Compartir este artículo' })}</p>
+        <p>
+          <img src="/extended-humans-icon.png" alt="" aria-hidden="true" className="article-inline-icon" />
+          {t({ en: 'Share this article', de: 'Diesen Artikel teilen', es: 'Compartir este artículo' })}
+        </p>
         <div className="article-share-buttons">
           <button type="button" className="article-share-btn" onClick={handleShare}>
             <span aria-hidden="true">↗</span>
@@ -569,7 +572,10 @@ function ArticleEngagement({ articleKey }: { articleKey: string }): JSX.Element 
   return (
     <section className="article-engagement">
       <div className="article-engagement-card">
-        <p className="article-engagement-eyebrow">{t({ en: 'Reader Feedback', de: 'Lese-Feedback', es: 'Feedback de lectura' })}</p>
+        <p className="article-engagement-eyebrow">
+          <img src="/extended-humans-icon.png" alt="" aria-hidden="true" className="article-inline-icon" />
+          {t({ en: 'Reader Feedback', de: 'Lese-Feedback', es: 'Feedback de lectura' })}
+        </p>
         <h3>{t({
           en: 'Rate this article and join the discussion',
           de: 'Bewerte diesen Artikel und diskutiere mit',
