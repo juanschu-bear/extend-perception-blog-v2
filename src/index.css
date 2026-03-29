@@ -280,6 +280,20 @@ body {
   margin-bottom: 12px;
 }
 
+.article-share-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.article-share-toast {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: rgba(245, 237, 224, 0.75);
+}
+
 .article-comment-controls label {
   color: rgba(245, 237, 224, 0.72);
   font-size: 12px;

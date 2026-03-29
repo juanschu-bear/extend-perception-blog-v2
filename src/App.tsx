@@ -129,6 +129,14 @@ function ArticleShell({ children }: { children: JSX.Element }): JSX.Element {
         document.body.appendChild(wrapper)
 
         try {
+          const titleGuess = ((clonedCard.querySelector('h2,h3,strong,.card-label') as HTMLElement | null)?.innerText || '').trim()
+          const slugPart = window.location.pathname.replace(/^\/+|\/+$/g, '').replace(/\//g, '-')
+          const cardPart = titleGuess
+            .toLowerCase()
+            .replace(/[^a-z0-9\s-]/g, '')
+            .trim()
+            .replace(/\s+/g, '-')
+            .slice(0, 48)
           const dataUrl = await toPng(clonedCard, {
             cacheBust: true,
             pixelRatio: 2,
@@ -136,7 +144,8 @@ function ArticleShell({ children }: { children: JSX.Element }): JSX.Element {
           })
           const link = document.createElement('a')
           link.href = dataUrl
-          link.download = 'extended-humans-quote.png'
+          const fileName = `extended-humans-${slugPart || 'article'}-${cardPart || 'quote'}.png`
+          link.download = fileName
           link.click()
         } finally {
           document.body.removeChild(wrapper)
@@ -211,6 +220,7 @@ function ArticleEngagement({ articleKey }: { articleKey: string }): JSX.Element 
   const [editName, setEditName] = useState('')
   const [editText, setEditText] = useState('')
   const [editRating, setEditRating] = useState(4)
+  const [shareToast, setShareToast] = useState('')
   const [uiLang, setUiLang] = useState<'en' | 'de' | 'es'>(() => {
     const saved = typeof window !== 'undefined' ? window.localStorage.getItem('eh:lang') : null
     if (saved === 'de' || saved === 'es' || saved === 'en') return saved
@@ -482,6 +492,43 @@ function ArticleEngagement({ articleKey }: { articleKey: string }): JSX.Element 
     if (editingCommentId === commentId) cancelEditing()
   }
 
+  const handleShare = async () => {
+    const shareUrl = window.location.href
+    const shareTitle = 'Extended Humans'
+    const shareText = t({
+      en: 'Read this Extended Humans article.',
+      de: 'Lies diesen Extended Humans Artikel.',
+      es: 'Lee este artículo de Extended Humans.',
+    })
+
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: shareTitle, text: shareText, url: shareUrl })
+        return
+      } catch {
+        // Fallback below
+      }
+    }
+
+    await navigator.clipboard.writeText(shareUrl)
+    setShareToast(t({
+      en: 'Link copied.',
+      de: 'Link kopiert.',
+      es: 'Enlace copiado.',
+    }))
+    window.setTimeout(() => setShareToast(''), 1400)
+  }
+
+  const copyArticleLink = async () => {
+    await navigator.clipboard.writeText(window.location.href)
+    setShareToast(t({
+      en: 'Link copied.',
+      de: 'Link kopiert.',
+      es: 'Enlace copiado.',
+    }))
+    window.setTimeout(() => setShareToast(''), 1400)
+  }
+
   return (
     <section className="article-engagement">
       <div className="article-engagement-card">
@@ -491,6 +538,15 @@ function ArticleEngagement({ articleKey }: { articleKey: string }): JSX.Element 
           de: 'Bewerte diesen Artikel und diskutiere mit',
           es: 'Califica este artículo y únete a la conversación',
         })}</h3>
+        <div className="article-share-row">
+          <button type="button" className="article-comment-like" onClick={handleShare}>
+            {t({ en: 'Share article', de: 'Artikel teilen', es: 'Compartir artículo' })}
+          </button>
+          <button type="button" className="article-comment-like" onClick={copyArticleLink}>
+            {t({ en: 'Copy link', de: 'Link kopieren', es: 'Copiar enlace' })}
+          </button>
+          {shareToast && <span className="article-share-toast">{shareToast}</span>}
+        </div>
 
         <div className="article-engagement-actions">
           <div className="article-rating-summary">
