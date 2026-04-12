@@ -137,7 +137,7 @@ export default function ExtendedHumansLibrary(): JSX.Element {
   }, []);
 
   useEffect(() => {
-    const target = new Date('2026-04-15T00:00:00+02:00').getTime();
+    const target = new Date('2026-06-01T00:00:00+02:00').getTime();
     const tick = () => {
       const delta = Math.max(0, target - Date.now());
       const days = Math.floor(delta / (1000 * 60 * 60 * 24));
@@ -324,9 +324,9 @@ export default function ExtendedHumansLibrary(): JSX.Element {
         <div className="social-proof-inner" style={{ maxWidth: 900, margin: '0 auto', padding: '0 clamp(20px, 5vw, 48px)', textAlign: 'center' as const }}>
           <h3 style={{ margin: 0, marginBottom: 32, fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(24px, 3.5vw, 36px)', fontWeight: 400, fontStyle: 'italic', color: '#F5EDE0', textAlign: 'center' as const }}>
             {tx({
-              en: 'Relied on by 1,100+ decision-makers in 7 countries',
-              de: 'Über 1.100 Entscheidungsträger in 7 Ländern greifen darauf zurück & nutzen diese Inhalte',
-              es: 'más de 1.100 decisores y líderes en siete países utilizan & se apoyan en estos contenidos.',
+              en: 'Relied on by Decision Makers',
+              de: 'Genutzt von Entscheidungsträgern',
+              es: 'Usado por tomadores de decisiones',
             })}
           </h3>
           <div
@@ -507,9 +507,9 @@ export default function ExtendedHumansLibrary(): JSX.Element {
           </h3>
           <p style={{ marginTop: 0, marginBottom: 28, fontFamily: "'Source Sans 3', sans-serif", fontSize: 16, fontWeight: 300, color: '#6E6555', maxWidth: 440, marginLeft: 'auto', marginRight: 'auto' }}>
             {tx({
-              en: 'The Extended Humans essay drops April 15. Be the first to read it.',
-              de: 'Das Extended Humans Essay erscheint am 15. April. Lies es als Erster.',
-              es: 'El ensayo Extended Humans sale el 15 de abril. Sé el primero en leerlo.',
+              en: 'The Extended Humans essay drops June 1. Be the first to read it.',
+              de: 'Das Extended Humans Essay erscheint am 1. Juni. Lies es als Erster.',
+              es: 'El ensayo Extended Humans sale el 1 de junio. Sé el primero en leerlo.',
             })}
           </p>
           <SignupForm lang={lang} mode="card" />
@@ -535,7 +535,7 @@ export default function ExtendedHumansLibrary(): JSX.Element {
           </p>
           <div className="essay-event-footer">
             <div className="essay-event-date" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: '#D4A44E', letterSpacing: 3 }}>
-              {tx({ en: 'April 15, 2026', de: '15. April 2026', es: '15 de abril de 2026' })}
+              {tx({ en: 'June 1, 2026', de: '1. Juni 2026', es: '1 de junio de 2026' })}
             </div>
             <div className="essay-countdown" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 'clamp(18px, 3.2vw, 27px)', letterSpacing: 1.5, color: '#C9A96E', marginTop: 8 }}>
               {countdownText}
